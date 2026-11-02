@@ -33,17 +33,44 @@ Sol-Attn：   稠密注意力预热 → 逐渐稀疏 → 稀疏注意力
 - CPU：AMD Ryzen 5 9600X
 - 内存：32 GB
 
-“完整工作流耗时”对应 ComfyUI 日志中的 `Prompt executed`；“采样器耗时”对应 `[Sol-Sampler] Sampling completed`。输出尺寸、帧数和时长来自本地视频元数据。
+所有记录均使用 16:9、`ResolutionSelector multiple=16`、`lowres_scale=0.5`，且只启用表中列出的加速 LoRA，不额外加载风格 LoRA。FL2VA 检查点为 `minimax_h3_fl2va_pruned_int8_convrot.safetensors`；REF2VA 检查点为 `minimax_h3_ref2va_pruned_int8_convrot.safetensors`。
 
-| 目标设置 | 本地输出记录 | 采样器耗时 | 完整工作流耗时 |
-| --- | --- | ---: | ---: |
-| 1.0 MP / 15 秒 | 历史输出元数据：1568 × 672（1.054 MP），362 帧（15.083 秒）；视频文件和对应运行日志已不在本地。 | — | — |
-| 1.5 MP / 10 秒 | `MiniMax_H3_00061_.mp4`：1664 × 928（1.544 MP），243 帧（10.125 秒） | 387.699 秒 | 449.24 秒 |
-| 2.0 MP / 8 秒 | `MiniMax_H3_00009_.mp4`：1920 × 1088（2.089 MP），192 帧（8.000 秒） | 473.684 秒 | 563.05 秒 |
-| 3.0 MP / 5 秒 | `MiniMax_H3_00003_.mp4`：2368 × 1344（3.183 MP），124 帧（5.167 秒） | 434.076 秒 | 500.77 秒 |
+`采样器耗时`对应日志 `[Sol-Sampler] Sampling completed`；`完整工作流耗时`对应 ComfyUI 的 `Prompt executed`。时间单位为秒。输出文件名、尺寸、帧数和实际时长来自本地 MP4 元数据；视频文件仍保存在本地 ComfyUI 输出目录，不包含在此仓库中。
 
-在我的实际运行中，T2VA 与 REF2VA 的生成耗时相对一致。1.0 MP / 15 秒的本地资产索引保留了输出尺寸与时长，但视频文件及对应日志已不在本地，因此无法还原耗时。
+### FL2VA 模型
 
+- **DMAD：**`minimax_h3_dmad_full_dareties_v4_step600_comfy_fro.safetensors`，强度 0.8；Euler / Beta；总步数 10，`lowres_steps=6`。
+- **Pika：**`pika_h3_flex_fl2va_comfy_bf16.safetensors`，强度 1.0；LCM / Simple；总步数 9，`lowres_steps=5`。
+
+| 加速 LoRA | 目标 | 采样器耗时 | 完整工作流耗时 | 本地输出 / 状态 |
+| --- | --- | ---: | ---: | --- |
+| DMAD | 1.0 MP / 15 秒 | — | — | 未测；待低后台负载时直接运行。 |
+| DMAD | 1.5 MP / 10 秒 | — | — | 未测；待低后台负载时直接运行。 |
+| DMAD | 2.0 MP / 8 秒 | — | — | 未测；待低后台负载时直接运行。 |
+| DMAD | 3.0 MP / 5 秒 | — | — | 未测；待低后台负载时直接运行。 |
+| Pika | 1.0 MP / 15 秒 | 408.283 秒 | 477.36 秒 | `FL2VA_Pika_1.0MP_15s_00001_.mp4` — 1360 × 768，362 帧，15.083 秒 |
+| Pika | 1.5 MP / 10 秒 | 418.273 秒 | 484.01 秒 | `FL2VA_Pika_1.5MP_10s_00001_.mp4` — 1680 × 944，243 帧，10.125 秒 |
+| Pika | 2.0 MP / 8 秒 | 495.654 秒 | 563.76 秒 | `FL2VA_Pika_2.0MP_8s_00001_.mp4` — 1936 × 1088，192 帧，8.000 秒 |
+| Pika | 3.0 MP / 5 秒 | — | — | H3 潜空间放大在时间分块 32→16→8 后仍 OOM；未生成完成视频。 |
+
+### REF2VA 模型
+
+- **检查点：**`minimax_h3_ref2va_pruned_int8_convrot.safetensors`。
+- **DMAD：**`minimax_h3_dmad_full_dareties_v4_step600_comfy_fro.safetensors`，强度 0.8；Euler / Beta；总步数 10，`lowres_steps=6`。
+- **Pika：**`pika_h3_flex_ref2va_comfy_bf16.safetensors`，强度 1.0；LCM / Simple；总步数 9，`lowres_steps=5`。
+
+| 加速 LoRA | 目标 | 采样器耗时 | 完整工作流耗时 | 本地输出 / 状态 |
+| --- | --- | ---: | ---: | --- |
+| DMAD | 1.0 MP / 15 秒 | — | — | 未测；待低后台负载时直接运行。 |
+| DMAD | 1.5 MP / 10 秒 | — | — | 未测；待低后台负载时直接运行。 |
+| DMAD | 2.0 MP / 8 秒 | — | — | 未测；待低后台负载时直接运行。 |
+| DMAD | 3.0 MP / 5 秒 | — | — | 未测；待低后台负载时直接运行。 |
+| Pika | 1.0 MP / 15 秒 | 560.169 秒 | 730.00 秒 | `REF2VA_Pika_pruned_1.0MP_15s_00001_.mp4` — 1360 × 768，362 帧，15.083 秒 |
+| Pika | 1.5 MP / 10 秒 | — | — | 按用户要求在完成前停止；待直接运行。 |
+| Pika | 2.0 MP / 8 秒 | — | — | 未测；待直接运行。 |
+| Pika | 3.0 MP / 5 秒 | — | — | 未测；待直接运行。 |
+
+在我更广泛的本地生成记录中，T2VA 和 REF2VA 的耗时表现总体相近。本表中的严格对照尚不完整：目前只完成了一组 REF2VA / Pika 对照，而且本次测量时还有其他桌面程序运行。剩余耗时将在后台负载较低时直接运行后补充。
 ## 使用要求
 
 - ComfyUI 中可用原生 **Model Sparse Attention（Sol-Attn）** 节点。
