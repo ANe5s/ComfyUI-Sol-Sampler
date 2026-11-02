@@ -77,7 +77,7 @@ Keep `upscaler_temporal_chunking` enabled. It is on by default and applies to th
 
 ## Why the showcase workflows use Pika H3 Flex
 
-I use Pika H3 Flex as the baseline acceleration LoRA in the showcase workflows. This choice reflects my own tests and related work I made public on and after August 7, 2026; it is an empirical workflow choice, not a universal LoRA ranking.
+I use Pika H3 Flex as the baseline acceleration LoRA in the showcase workflows. This discussion is framed by related research I made public on and after August 7, 2026.
 
 With the larryvrh V1 step500 Turbo LoRA, I observed that its early-training acceleration path had not yet visibly overfit. Running the base model with the LoRA through a full sigma trajectory showed distinct effects by normalized sigma: high-sigma steps mainly shaped global structure, while low-sigma steps mainly refined detail. The acceleration path therefore retained recognizable high- and low-noise characteristics.
 
