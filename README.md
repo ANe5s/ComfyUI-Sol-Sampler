@@ -27,23 +27,50 @@ Extensive ComfyUI generation runs have validated the speed and memory benefits o
 
 The sampler splits the input sigma schedule at `lowres_steps`. It denoises the latent at reduced spatial resolution, upscales the denoised latent, reconstructs the high-resolution state at the transition sigma, then continues with the remaining sigmas. The same selected native ComfyUI sampler is used in both stages; the node does not add a second noise schedule or extra denoising steps. Actual peak usage varies with the model, latent shape, attention implementation, and other models resident in memory.
 
-## My experiment setup and generation records
+## My test environment and generation records
 
 - GPU: NVIDIA GeForce RTX 5070 (12 GB VRAM)
 - CPU: AMD Ryzen 5 9600X
 - System memory: 32 GB
 
-`Full workflow` is ComfyUI's `Prompt executed` time. `Sampler` is `[Sol-Sampler] Sampling completed` time. Output dimensions, frame counts, and durations come from local video metadata.
+All runs use 16:9, `ResolutionSelector multiple=16`, `lowres_scale=0.5`, and only the listed acceleration LoRA. No additional style LoRA is included. The FL2VA checkpoint is `minimax_h3_fl2va_pruned_int8_convrot.safetensors`; the REF2VA checkpoint is `minimax_h3_ref2va_pruned_int8_convrot.safetensors`.
 
-| Target setting | Local output record | Sampler | Full workflow |
-| --- | --- | ---: | ---: |
-| 1.0 MP / 15 s | Historical output metadata: 1568 × 672 (1.054 MP), 362 frames (15.083 s); the video and matching run log are no longer available. | — | — |
-| 1.5 MP / 10 s | `MiniMax_H3_00061_.mp4` — 1664 × 928 (1.544 MP), 243 frames (10.125 s) | 387.699 s | 449.24 s |
-| 2.0 MP / 8 s | `MiniMax_H3_00009_.mp4` — 1920 × 1088 (2.089 MP), 192 frames (8.000 s) | 473.684 s | 563.05 s |
-| 3.0 MP / 5 s | `MiniMax_H3_00003_.mp4` — 2368 × 1344 (3.183 MP), 124 frames (5.167 s) | 434.076 s | 500.77 s |
+`Sampler` is `[Sol-Sampler] Sampling completed`; `Full workflow` is ComfyUI's `Prompt executed`. Times are seconds. Output filenames, dimensions, frame counts, and durations come from local MP4 metadata. The videos remain in the local ComfyUI output folder and are not included in this repository.
 
-In my actual runs, T2VA and REF2VA generation times were relatively similar. The 1.0 MP / 15 s asset index entry confirms the output dimensions and duration, but its file and matching logs are no longer retained, so its elapsed time is unavailable.
+### FL2VA model
 
+- **DMAD:** `minimax_h3_dmad_full_dareties_v4_step600_comfy_fro.safetensors` at 0.8; Euler / Beta; 10 steps, `lowres_steps=6`.
+- **Pika:** `pika_h3_flex_fl2va_comfy_bf16.safetensors` at 1.0; LCM / Simple; 9 steps, `lowres_steps=5`.
+
+| Acceleration LoRA | Target | Sampler | Full workflow | Local output / status |
+| --- | --- | ---: | ---: | --- |
+| DMAD | 1.0 MP / 15 s | — | — | Not measured; pending a direct run under lower desktop load. |
+| DMAD | 1.5 MP / 10 s | — | — | Not measured; pending a direct run under lower desktop load. |
+| DMAD | 2.0 MP / 8 s | — | — | Not measured; pending a direct run under lower desktop load. |
+| DMAD | 3.0 MP / 5 s | — | — | Not measured; pending a direct run under lower desktop load. |
+| Pika | 1.0 MP / 15 s | 408.283 s | 477.36 s | `FL2VA_Pika_1.0MP_15s_00001_.mp4` — 1360 × 768, 362 frames, 15.083 s |
+| Pika | 1.5 MP / 10 s | 418.273 s | 484.01 s | `FL2VA_Pika_1.5MP_10s_00001_.mp4` — 1680 × 944, 243 frames, 10.125 s |
+| Pika | 2.0 MP / 8 s | 495.654 s | 563.76 s | `FL2VA_Pika_2.0MP_8s_00001_.mp4` — 1936 × 1088, 192 frames, 8.000 s |
+| Pika | 3.0 MP / 5 s | — | — | H3 latent upscaling OOMed after reducing temporal chunking from 32 to 16 to 8; no completed video. |
+
+### REF2VA model
+
+- **Checkpoint:** `minimax_h3_ref2va_pruned_int8_convrot.safetensors`.
+- **DMAD:** `minimax_h3_dmad_full_dareties_v4_step600_comfy_fro.safetensors` at 0.8; Euler / Beta; 10 steps, `lowres_steps=6`.
+- **Pika:** `pika_h3_flex_ref2va_comfy_bf16.safetensors` at 1.0; LCM / Simple; 9 steps, `lowres_steps=5`.
+
+| Acceleration LoRA | Target | Sampler | Full workflow | Local output / status |
+| --- | --- | ---: | ---: | --- |
+| DMAD | 1.0 MP / 15 s | — | — | Not measured; pending a direct run under lower desktop load. |
+| DMAD | 1.5 MP / 10 s | — | — | Not measured; pending a direct run under lower desktop load. |
+| DMAD | 2.0 MP / 8 s | — | — | Not measured; pending a direct run under lower desktop load. |
+| DMAD | 3.0 MP / 5 s | — | — | Not measured; pending a direct run under lower desktop load. |
+| Pika | 1.0 MP / 15 s | 560.169 s | 730.00 s | `REF2VA_Pika_pruned_1.0MP_15s_00001_.mp4` — 1360 × 768, 362 frames, 15.083 s |
+| Pika | 1.5 MP / 10 s | — | — | Stopped before completion at the user's request; pending a direct run. |
+| Pika | 2.0 MP / 8 s | — | — | Not measured; pending a direct run. |
+| Pika | 3.0 MP / 5 s | — | — | Not measured; pending a direct run. |
+
+My broader local runs have appeared to show T2VA and REF2VA taking relatively similar time. This strict comparison is still incomplete: only one matched REF2VA/Pika row finished, and these measurements were made with other desktop activity running. I will add the remaining timings after direct runs under lower background load.
 ## Requirements
 
 - ComfyUI with its native **Model Sparse Attention (Sol-Attn)** nodes.
