@@ -33,7 +33,7 @@ Sol-Attn：   稠密注意力预热 → 逐渐稀疏 → 稀疏注意力
 - CPU：AMD Ryzen 5 9600X
 - 内存：32 GB
 
-所有记录均使用 16:9、`ResolutionSelector multiple=16` 和 `lowres_scale=0.5`。表中列出各记录使用的加速 LoRA；部分生成还额外加载了风格 LoRA。FL2VA 检查点为 `minimax_h3_fl2va_pruned_int8_convrot.safetensors`；REF2VA 检查点为 `minimax_h3_ref2va_pruned_int8_convrot.safetensors`。
+所有记录均使用 16:9 和 `lowres_scale=0.5`；`ResolutionSelector multiple` 根据工作流设置而异。表中列出各记录使用的加速 LoRA；部分生成还额外加载了风格 LoRA。FL2VA 检查点为 `minimax_h3_fl2va_pruned_int8_convrot.safetensors`；REF2VA 检查点为 `minimax_h3_ref2va_pruned_int8_convrot.safetensors`。
 
 `采样器耗时`对应日志 `[Sol-Sampler] Sampling completed`；`完整工作流耗时`对应 ComfyUI 的 `Prompt executed`。时间单位为秒。输出文件名、尺寸、帧数和实际时长来自本地 MP4 元数据；视频文件仍保存在本地 ComfyUI 输出目录，不包含在此仓库中。
 
@@ -68,7 +68,7 @@ Sol-Attn：   稠密注意力预热 → 逐渐稀疏 → 稀疏注意力
 | Pika | 1.0 MP / 15 秒 | 560.169 秒 | 730.00 秒 | 1360 × 768，362 帧，15.083 秒 |
 | Pika | 1.5 MP / 10 秒 | — | — | 按用户要求在完成前停止；待直接运行。 |
 | Pika | 2.0 MP / 8 秒 | — | — | 未测；待直接运行。 |
-| Pika | 3.0 MP / 5 秒 | — | — | 未测；待直接运行。 |
+| Pika | 3.0 MP / 5 秒 | 736.431 秒 | 803.00 秒 | `ResolutionSelector multiple=32`；2368 × 1344，124 帧，5.167 秒 |
 
 在我更广泛的本地生成记录中，T2VA 和 REF2VA 的耗时表现总体相近。本表中的严格对照尚不完整：目前只完成了一组 REF2VA / Pika 对照，而且本次测量时还有其他桌面程序运行。剩余耗时将在后台负载较低时直接运行后补充。
 ## 使用要求
