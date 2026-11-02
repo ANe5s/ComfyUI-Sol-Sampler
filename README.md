@@ -27,6 +27,23 @@ Extensive ComfyUI generation runs have validated the speed and memory benefits o
 
 The sampler splits the input sigma schedule at `lowres_steps`. It denoises the latent at reduced spatial resolution, upscales the denoised latent, reconstructs the high-resolution state at the transition sigma, then continues with the remaining sigmas. The same selected native ComfyUI sampler is used in both stages; the node does not add a second noise schedule or extra denoising steps. Actual peak usage varies with the model, latent shape, attention implementation, and other models resident in memory.
 
+## My experiment setup and generation records
+
+- GPU: NVIDIA GeForce RTX 5070 (12 GB VRAM)
+- CPU: AMD Ryzen 5 9600X
+- System memory: 32 GB
+
+`Full workflow` is ComfyUI's `Prompt executed` time. `Sampler` is `[Sol-Sampler] Sampling completed` time. Output dimensions, frame counts, and durations come from local video metadata.
+
+| Target setting | Local output record | Sampler | Full workflow |
+| --- | --- | ---: | ---: |
+| 1.0 MP / 15 s | Historical output metadata: 1568 × 672 (1.054 MP), 362 frames (15.083 s); the video and matching run log are no longer available. | — | — |
+| 1.5 MP / 10 s | `MiniMax_H3_00061_.mp4` — 1664 × 928 (1.544 MP), 243 frames (10.125 s) | 387.699 s | 449.24 s |
+| 2.0 MP / 8 s | `MiniMax_H3_00009_.mp4` — 1920 × 1088 (2.089 MP), 192 frames (8.000 s) | 473.684 s | 563.05 s |
+| 3.0 MP / 5 s | `MiniMax_H3_00003_.mp4` — 2368 × 1344 (3.183 MP), 124 frames (5.167 s) | 434.076 s | 500.77 s |
+
+In my actual runs, T2VA and REF2VA generation times were relatively similar. The 1.0 MP / 15 s asset index entry confirms the output dimensions and duration, but its file and matching logs are no longer retained, so its elapsed time is unavailable.
+
 ## Requirements
 
 - ComfyUI with its native **Model Sparse Attention (Sol-Attn)** nodes.
