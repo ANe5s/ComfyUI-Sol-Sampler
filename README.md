@@ -68,7 +68,7 @@ All runs use 16:9 and `lowres_scale=0.5`; the `ResolutionSelector multiple` sett
 | Pika | 1.0 MP / 15 s | 560.169 s | 730.00 s | 1360 × 768, 362 frames, 15.083 s |
 | Pika | 1.5 MP / 10 s | — | — | Stopped before completion at the user's request; pending a direct run. |
 | Pika | 2.0 MP / 8 s | — | — | Not measured; pending a direct run. |
-| Pika | 3.0 MP / 5 s | 736.431 s | 803.00 s | ResolutionSelector multiple=32; 2368 × 1344, 124 frames, 5.167 s |
+| Pika | 3.0 MP / 5 s | 736.431 s | 803.00 s | 2368 × 1344, 124 frames, 5.167 s; `chunks=8`, `seq_threshold=2048` |
 
 My broader local runs have appeared to show T2VA and REF2VA taking relatively similar time. This strict comparison is still incomplete: only one matched REF2VA/Pika row finished, and these measurements were made with other desktop activity running. I will add the remaining timings after direct runs under lower background load.
 ## Requirements
