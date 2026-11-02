@@ -33,7 +33,7 @@ The sampler splits the input sigma schedule at `lowres_steps`. It denoises the l
 - CPU: AMD Ryzen 5 9600X
 - System memory: 32 GB
 
-All runs use 16:9, `ResolutionSelector multiple=16`, and `lowres_scale=0.5`. The table lists the acceleration LoRA used for each record; some runs also include additional style LoRAs. The FL2VA checkpoint is `minimax_h3_fl2va_pruned_int8_convrot.safetensors`; the REF2VA checkpoint is `minimax_h3_ref2va_pruned_int8_convrot.safetensors`.
+All runs use 16:9 and `lowres_scale=0.5`; the `ResolutionSelector multiple` setting varies by workflow. The table lists the acceleration LoRA used for each record; some runs also include additional style LoRAs. The FL2VA checkpoint is `minimax_h3_fl2va_pruned_int8_convrot.safetensors`; the REF2VA checkpoint is `minimax_h3_ref2va_pruned_int8_convrot.safetensors`.
 
 `Sampler` is `[Sol-Sampler] Sampling completed`; `Full workflow` is ComfyUI's `Prompt executed`. Times are seconds. Output filenames, dimensions, frame counts, and durations come from local MP4 metadata. The videos remain in the local ComfyUI output folder and are not included in this repository.
 
@@ -68,7 +68,7 @@ All runs use 16:9, `ResolutionSelector multiple=16`, and `lowres_scale=0.5`. The
 | Pika | 1.0 MP / 15 s | 560.169 s | 730.00 s | 1360 × 768, 362 frames, 15.083 s |
 | Pika | 1.5 MP / 10 s | — | — | Stopped before completion at the user's request; pending a direct run. |
 | Pika | 2.0 MP / 8 s | — | — | Not measured; pending a direct run. |
-| Pika | 3.0 MP / 5 s | — | — | Not measured; pending a direct run. |
+| Pika | 3.0 MP / 5 s | 736.431 s | 803.00 s | ResolutionSelector multiple=32; 2368 × 1344, 124 frames, 5.167 s |
 
 My broader local runs have appeared to show T2VA and REF2VA taking relatively similar time. This strict comparison is still incomplete: only one matched REF2VA/Pika row finished, and these measurements were made with other desktop activity running. I will add the remaining timings after direct runs under lower background load.
 ## Requirements
