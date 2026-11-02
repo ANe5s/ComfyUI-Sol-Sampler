@@ -77,29 +77,22 @@ Keep `upscaler_temporal_chunking` enabled. It is on by default and applies to th
 
 ## Why the showcase workflows use Pika H3 Flex
 
-I use Pika H3 Flex as the baseline acceleration LoRA in the showcase workflows. This discussion is framed by related research I made public on and after August 7, 2026.
+This discussion is framed by the related research I made public on and after August 7, 2026. With the larryvrh V1 step500 Turbo LoRA, I observed a characteristic that may be related to the model or training method: during the early training stage of the larryvrh Turbo LoRA, its acceleration path had not yet shown obvious overfitting. When combining the base model with the LoRA and denoising along the full sigma trajectory, the denoising directions and characteristics in the early high normalized-sigma range and the later low normalized-sigma range are clearly different. The high-sigma stage mainly affects global structure, while the low-sigma stage mainly affects detail. This shows that one Turbo LoRA can retain distinct high- and low-noise characteristics across normalized sigma ranges.
 
-With the larryvrh V1 step500 Turbo LoRA, I observed that its early-training acceleration path had not yet visibly overfit. Running the base model with the LoRA through a full sigma trajectory showed distinct effects by normalized sigma: high-sigma steps mainly shaped global structure, while low-sigma steps mainly refined detail. The acceleration path therefore retained recognizable high- and low-noise characteristics.
+These characteristics disappeared in later accelerated models. Later larryvrh and LightX2V versions did learn to approximate the target denoising trajectory in fewer steps, but this high-/low-noise behavior disappeared in subsequent accelerated models. For accelerated LoRAs labeled for 4 or 8 steps, even increasing the sampling steps and extending the low-sigma phase did not make the additional denoising steps improve the image. The oily, AI-smeared appearance remained similar to the 8-step result, as if the acceleration path had locked the image-quality ceiling.
 
-In some later accelerated LoRAs from larryvrh and LightX2V, I found that this distinction weakened or disappeared. Although these models approximate a target trajectory in fewer steps, adding steps or extending the low-sigma tail often did not improve my results: an oily or smeared appearance remained close to the nominal 8-step output, as if the acceleration path imposed a quality ceiling.
+After Civitai creator tsolful merged DMAD with larryvrh's v4_step600, this issue was resolved and overfitting in the LoRA acceleration path was alleviated. Following extensive testing and workflow sharing by Bilibili creator YZ_金鱼, `minimax_h3_dmad_full_dareties_v4_step600_comfy` gradually became widely used for second sampling because of its better results. This weight merge also has a tradeoff: some objects, such as mechanical forms, may become underfit in shape and suffer structural breakdown. See tsolful's model page.
 
-In my tests, Civitai creator tsolful's merge of DMAD with larryvrh v4_step600 alleviated this overfitting behavior. Extensive testing and workflow sharing by Bilibili creator YZ_金鱼 also helped `minimax_h3_dmad_full_dareties_v4_step600_comfy` become a common second-sampling choice. The tradeoff I observed is shape underfitting on some objects—mechanical forms in particular—which can damage structure.
+After Pika H3 Flex was released, its six-step acceleration LoRA showed the acceleration-path underfitting I was familiar with. I brought this LoRA back into my tests and observed the familiar high-/low-noise behavior. My experiments suggest the following: the LCM sampler's update rule is relatively fixed, but the actual denoising path is still affected by the sigma sequence. In common second-sampling workflows, directly reusing the officially recommended fixed six-step sigma schedule causes a number of problems. My tests indicate that nine or more steps are more suitable. When generating sigmas with a scheduler, prefer Simple, followed by Beta. Five low-resolution steps are necessary: if their sigma sequence does not cover the normalized high-sigma range, some objects may disappear completely; if too few steps are assigned to the low-sigma range, fast-moving objects may be underfit.
 
-Pika H3 Flex's open six-step acceleration LoRA showed a similar underfitting signature, but retesting it also revealed the high-/low-sigma behavior I was looking for. That responsiveness is why I chose Pika as the baseline for these workflows: it leaves room to improve results through sigma scheduling and low-/high-resolution step allocation.
+### Pika sampling settings
 
-Although an LCM sampler uses a fixed update rule, the denoising trajectory still depends on its sigma schedule. In my second-sampling tests, the fixed six-step sigma schedule caused many issues. The experimental conclusion is to use at least 9 total steps. I prefer the Simple scheduler, followed by Beta. For the showcased Pika setup, set `lowres_steps=5`; those steps should cover the normalized high-sigma region, or some objects may disappear. Keep enough steps for the low-sigma region as well, or fast-moving objects can be underfit.
-
-### Pika settings in the showcase workflows
-
-These Pika-specific settings differ from the node defaults listed below.
-
-| Setting | Recommendation |
+| Setting | Selection |
 | --- | --- |
-| Sampler | FL2VA and REF2VA: `lcm`. |
-| Scheduler | `simple` first; `beta` as the alternative from my tests. |
-| Total steps | At least `9`; the showcase workflows use `9`. This is my experimental conclusion for Pika second sampling. |
-| `lowres_steps` | `5`; the remaining steps run in the high-resolution stage. At 9 total steps, that leaves 4 high-resolution steps. |
-
+| Sampler | `lcm` for both FL2VA and REF2VA. |
+| Scheduler | `Simple` first, followed by `Beta`. |
+| Total steps | Nine or more; the showcase workflows use nine. |
+| `lowres_steps` | `5`; with nine total steps, the high-resolution stage has four steps. |
 ## Inputs
 
 | Input | Default | Description |
