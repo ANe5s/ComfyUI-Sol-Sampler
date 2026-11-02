@@ -55,6 +55,51 @@ Restart ComfyUI after adding a checkpoint so it appears in the node's model list
 
 The node is in **ANe5s Nodes → Sol-Sampler** and outputs a `SAMPLER`.
 
+## Joint optimization strategy
+
+The [showcase workflows](examples/) combine attention, sampling, and memory-management optimizations.
+
+### Attention and memory path
+
+Apply model processing in this order:
+
+`Model Attention Backend` → `Model Sparse Attention (Sol-Attn)` → `MiniMax H3 Chunk FeedForward`
+
+`MiniMax H3 Chunk FeedForward` defaults to `chunks=2` and `seq_threshold=4096`. If it becomes a performance bottleneck, try increasing `chunks` to `4`, `8`, or `16`, and lowering `seq_threshold` to `2048`.
+
+For medium-to-high memory pressure, I recommend KJ/VRAMdebug cleanup nodes to release VRAM and host-memory usage. Place them at latent handoffs and before the final video save.
+
+### Sampling path
+
+Apply ComfyUI's native `Model Sparse Attention (Sol-Attn)` to the model, then connect `Sol-Attn Progressive Sampler` to the `sampler` input of `SamplerCustomAdvanced`. Sol-Attn progressively sparsifies attention and provides attention-level VRAM relief; the progressive sampler coordinates low-resolution denoising, latent upscaling, and high-resolution denoising as one sampling run. This serves the memory goal often sought with chunked denoising while preserving a shared sampling context.
+
+Keep `upscaler_temporal_chunking` enabled. It is on by default and applies to the latent upscaler. The implementation prioritizes broad device compatibility, so occasional upscaling issues may still depend on the hardware and runtime environment.
+
+## Why the showcase workflows use Pika H3 Flex
+
+I use Pika H3 Flex as the baseline acceleration LoRA in the showcase workflows. This choice reflects my own tests and related work I made public on and after August 7, 2026; it is an empirical workflow choice, not a universal LoRA ranking.
+
+With the larryvrh V1 step500 Turbo LoRA, I observed that its early-training acceleration path had not yet visibly overfit. Running the base model with the LoRA through a full sigma trajectory showed distinct effects by normalized sigma: high-sigma steps mainly shaped global structure, while low-sigma steps mainly refined detail. The acceleration path therefore retained recognizable high- and low-noise characteristics.
+
+In some later accelerated LoRAs from larryvrh and LightX2V, I found that this distinction weakened or disappeared. Although these models approximate a target trajectory in fewer steps, adding steps or extending the low-sigma tail often did not improve my results: an oily or smeared appearance remained close to the nominal 8-step output, as if the acceleration path imposed a quality ceiling.
+
+In my tests, Civitai creator tsolful's merge of DMAD with larryvrh v4_step600 alleviated this overfitting behavior. Extensive testing and workflow sharing by Bilibili creator YZ_金鱼 also helped `minimax_h3_dmad_full_dareties_v4_step600_comfy` become a common second-sampling choice. The tradeoff I observed is shape underfitting on some objects—mechanical forms in particular—which can damage structure.
+
+Pika H3 Flex's open six-step acceleration LoRA showed a similar underfitting signature, but retesting it also revealed the high-/low-sigma behavior I was looking for. That responsiveness is why I chose Pika as the baseline for these workflows: it leaves room to improve results through sigma scheduling and low-/high-resolution step allocation.
+
+Although an LCM sampler uses a fixed update rule, the denoising trajectory still depends on its sigma schedule. In my second-sampling tests, the fixed six-step sigma schedule caused many issues. The experimental conclusion is to use at least 9 total steps. I prefer the Simple scheduler, followed by Beta. For the showcased Pika setup, set `lowres_steps=5`; those steps should cover the normalized high-sigma region, or some objects may disappear. Keep enough steps for the low-sigma region as well, or fast-moving objects can be underfit.
+
+### Pika settings in the showcase workflows
+
+These Pika-specific settings differ from the node defaults listed below.
+
+| Setting | Recommendation |
+| --- | --- |
+| Sampler | FL2VA and REF2VA: `lcm`. |
+| Scheduler | `simple` first; `beta` as the alternative from my tests. |
+| Total steps | At least `9`; the showcase workflows use `9`. This is my experimental conclusion for Pika second sampling. |
+| `lowres_steps` | `5`; the remaining steps run in the high-resolution stage. At 9 total steps, that leaves 4 high-resolution steps. |
+
 ## Inputs
 
 | Input | Default | Description |
@@ -77,4 +122,3 @@ The H3 upscaler is cached in CPU memory for reuse. In standard model-management 
 ## License
 
 Original project code and documentation are licensed under the Apache License 2.0; see [LICENSE](LICENSE). The `h3_latent_upscaler.py` file, which contains code adapted from upstream, is distributed under the upstream MIT license with its notices retained; see [NOTICE](NOTICE).
-

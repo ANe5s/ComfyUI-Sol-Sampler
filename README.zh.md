@@ -55,6 +55,51 @@ ComfyUI/models/latent_upscale_models/
 
 节点位于 **ANe5s Nodes → Sol-Sampler**，输出类型为 `SAMPLER`。
 
+## 联合优化策略
+
+[展示工作流](examples/) 将注意力、采样器和显存管理设置组合使用。
+
+### 注意力与显存路径
+
+模型处理顺序：
+
+`模型注意力后端` → `Model Sparse Attention（Sol-Attn）` → `MiniMax H3 Chunk FeedForward`
+
+`MiniMax H3 Chunk FeedForward` 默认 `chunks=2`、`seq_threshold=4096`。如果它成为性能瓶颈，可以依次尝试将 `chunks` 提高到 `4`、`8` 或 `16`，并将 `seq_threshold` 降到 `2048`。
+
+中高显存压力下，我建议使用 KJ/VRAMdebug 一类的显存清理节点，释放显存和内存占用。可以将它们放在潜空间传递过程中，以及最终保存视频之前。
+
+### 采样器路径
+
+在模型上应用 ComfyUI 原生 `Model Sparse Attention（Sol-Attn）`，再将 `Sol-Attn Progressive Sampler` 接到 `SamplerCustomAdvanced` 的 `sampler` 输入。Sol-Attn 通过逐渐稀疏化注意力降低注意力侧的显存压力；渐进式采样器则在一轮采样中协调低分辨率去噪、潜空间放大和高分辨率去噪。它实现了分块去噪通常用于缓解显存压力的目标，同时保留共享采样上下文。
+
+请保持 `upscaler_temporal_chunking` 开启（默认）。时间分块只用于潜空间放大。当前实现优先兼顾更多设备环境，放大阶段仍可能因设备和运行环境差异而偶发问题。
+
+## 展示工作流为何选用 Pika H3 Flex
+
+我在展示工作流中选用 Pika H3 Flex 作为基准加速 LoRA。这个选择基于我在 2026 年 8 月 7 日及之后公开的相关研究和自己的生成测试，属于经验性的工作流选择，不代表对所有 LoRA 的普遍排名。
+
+使用 larryvrh V1 step500 Turbo LoRA 时，我观察到它在早期训练阶段的加速路径尚未明显过拟合。将基模与 LoRA 组合，并沿完整 Sigma 轨迹去噪，可以看到不同归一化 Sigma 区间的作用不同：高 Sigma 阶段主要塑造整体结构，低 Sigma 阶段主要细化细节。这说明该加速路径仍保留了可辨认的高、低噪声阶段特征。
+
+在 larryvrh 和 LightX2V 后续的一些加速 LoRA 中，我观察到这种区分逐渐减弱或消失。它们学会了用更少步数逼近目标去噪轨迹，但在我的测试中，增加步数或延长低 Sigma 尾段往往没有继续改善画面：油腻感或 AI 涂抹感仍接近标称 8 步的结果，仿佛加速路径锁定了画质上限。
+
+在我的测试中，Civitai 作者 tsolful 将 DMAD 与 larryvrh v4_step600 合并后，缓解了这类过拟合。经过 B 站作者 YZ_金鱼的广泛测试与工作流分享，`minimax_h3_dmad_full_dareties_v4_step600_comfy` 也逐渐成为常见的二次采样选择。我观察到的代价是部分物体可能出现形体欠拟合，尤其是机械结构，进而导致结构损坏。
+
+Pika H3 Flex 开源的六步加速 LoRA 呈现出类似的加速路径欠拟合特征；重新测试后，我也观察到了熟悉的高、低 Sigma 行为。因此我选择它作为展示工作流的基准：它对 Sigma 序列仍有响应，可以通过调度 Sigma 以及分配低、高分辨率阶段步数来继续改善结果。
+
+LCM 采样器的更新规则相对固定，但实际去噪轨迹仍受 Sigma 序列影响。我的二次采样实验中，固定六步 Sigma 序列会出现不少问题。实验结论是总步数应设为 9 步以上。调度器优先选择 Simple，其次是 Beta。展示工作流中的 Pika 配置将 `lowres_steps` 设为 `5`；这五步的 Sigma 序列应覆盖归一化后的高 Sigma 区间，否则部分物体可能完全缺失；低 Sigma 区间也要保留足够步数，否则快速运动物体容易欠拟合。
+
+### 展示工作流中的 Pika 参数
+
+这些是 Pika 专用设置，与下方节点通用默认值不同。
+
+| 参数 | 建议设置 |
+| --- | --- |
+| 采样器 | FL2VA 和 REF2VA 均使用 `lcm`。 |
+| 调度器 | 优先 `simple`；`beta` 作为我的测试中的备选。 |
+| 总步数 | `9` 步以上；展示工作流使用 `9` 步。这是 Pika 二次采样的实验结论。 |
+| `lowres_steps` | `5`；剩余步数用于高分辨率阶段。总步数为 9 时，高分阶段为 4 步。 |
+
 ## 输入
 
 | 输入 | 默认值 | 说明 |

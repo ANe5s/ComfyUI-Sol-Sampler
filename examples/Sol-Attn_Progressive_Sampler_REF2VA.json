@@ -1097,7 +1097,7 @@
         "Node name for S&R": "SolAttnProgressiveSampler"
       },
       "widgets_values": [
-        "res_multistep",
+        "lcm",
         5,
         0.5,
         "Minimax H3 3D",
@@ -1107,7 +1107,7 @@
         false
       ],
       "widgets_values_named": {
-        "sampler_name": "res_multistep",
+        "sampler_name": "lcm",
         "lowres_steps": 5,
         "lowres_scale": 0.5,
         "latent_upsample": "Minimax H3 3D",
