@@ -77,7 +77,7 @@ ComfyUI/models/latent_upscale_models/
 
 ## 展示工作流为何选用 Pika H3 Flex
 
-我在展示工作流中选用 Pika H3 Flex 作为基准加速 LoRA。本部分讨论以我在 2026 年 8 月 7 日及之后公开的相关研究为背景。
+我在展示工作流中选用 Pika H3 Flex 作为基准加速 LoRA。这部分讨论以 2026 年 8 月 7 日及之后我公开的相关研究为背景。
 
 使用 larryvrh V1 step500 Turbo LoRA 时，我观察到它在早期训练阶段的加速路径尚未明显过拟合。将基模与 LoRA 组合，并沿完整 Sigma 轨迹去噪，可以看到不同归一化 Sigma 区间的作用不同：高 Sigma 阶段主要塑造整体结构，低 Sigma 阶段主要细化细节。这说明该加速路径仍保留了可辨认的高、低噪声阶段特征。
 
