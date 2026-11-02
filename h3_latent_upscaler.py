@@ -578,6 +578,8 @@ def upscale_latent(patcher, latent, target_size, scale, enable_chunking):
                         attempt, chunk, str(exc).splitlines()[0],
                     )
                     raise
+                # A failed allocation is stronger evidence than the workspace estimate; evict peer models before retrying.
+                comfy.model_management.free_memory(1e30, execution_device)
                 if target_free < empirical_floor:
                     target_free = min(empirical_floor, target_free + retry_step)
                     action = f"increase free-VRAM target to {target_free / 2**20:.0f} MiB"
