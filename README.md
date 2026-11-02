@@ -42,15 +42,15 @@ All runs use 16:9, `ResolutionSelector multiple=16`, `lowres_scale=0.5`, and onl
 - **DMAD + larryvrh v4_step600 (merged):** `minimax_h3_dmad_full_dareties_v4_step600_comfy_fro.safetensors` at 0.8–1.0; Euler / Beta; 10 steps, `lowres_steps=6`.
 - **Pika:** `pika_h3_flex_fl2va_comfy_bf16.safetensors` at 1.0; LCM / Simple; 9 steps, `lowres_steps=5`.
 
-| Acceleration LoRA | Target | Sampler | Full workflow | Local output / status |
+| Acceleration LoRA | Target | Sampler | Full workflow | Notes |
 | --- | --- | ---: | ---: | --- |
 | DMAD + larryvrh (merged) | 1.0 MP / 15 s | — | — | Not measured; pending a direct run under lower desktop load. |
 | DMAD + larryvrh (merged) | 1.5 MP / 10 s | — | — | Not measured; pending a direct run under lower desktop load. |
 | DMAD + larryvrh (merged) | 2.0 MP / 8 s | — | — | Not measured; pending a direct run under lower desktop load. |
 | DMAD + larryvrh (merged) | 3.0 MP / 5 s | — | — | Not measured; pending a direct run under lower desktop load. |
-| Pika | 1.0 MP / 15 s | 408.283 s | 477.36 s | `FL2VA_Pika_1.0MP_15s_00001_.mp4` — 1360 × 768, 362 frames, 15.083 s |
-| Pika | 1.5 MP / 10 s | 418.273 s | 484.01 s | `FL2VA_Pika_1.5MP_10s_00001_.mp4` — 1680 × 944, 243 frames, 10.125 s |
-| Pika | 2.0 MP / 8 s | 495.654 s | 563.76 s | `FL2VA_Pika_2.0MP_8s_00001_.mp4` — 1936 × 1088, 192 frames, 8.000 s |
+| Pika | 1.0 MP / 15 s | 408.283 s | 477.36 s | 1360 × 768, 362 frames, 15.083 s |
+| Pika | 1.5 MP / 10 s | 418.273 s | 484.01 s | 1680 × 944, 243 frames, 10.125 s |
+| Pika | 2.0 MP / 8 s | 495.654 s | 563.76 s | 1936 × 1088, 192 frames, 8.000 s |
 | Pika | 3.0 MP / 5 s | — | — | H3 latent upscaling OOMed after reducing temporal chunking from 32 to 16 to 8; no completed video. |
 
 ### REF2VA model
@@ -59,13 +59,13 @@ All runs use 16:9, `ResolutionSelector multiple=16`, `lowres_scale=0.5`, and onl
 - **DMAD + larryvrh v4_step600 (merged):** `minimax_h3_dmad_full_dareties_v4_step600_comfy_fro.safetensors` at 0.8–1.0; Euler / Beta; 10 steps, `lowres_steps=6`.
 - **Pika:** `pika_h3_flex_ref2va_comfy_bf16.safetensors` at 1.0; LCM / Simple; 9 steps, `lowres_steps=5`.
 
-| Acceleration LoRA | Target | Sampler | Full workflow | Local output / status |
+| Acceleration LoRA | Target | Sampler | Full workflow | Notes |
 | --- | --- | ---: | ---: | --- |
 | DMAD + larryvrh (merged) | 1.0 MP / 15 s | — | — | Not measured; pending a direct run under lower desktop load. |
 | DMAD + larryvrh (merged) | 1.5 MP / 10 s | — | — | Not measured; pending a direct run under lower desktop load. |
 | DMAD + larryvrh (merged) | 2.0 MP / 8 s | — | — | Not measured; pending a direct run under lower desktop load. |
-| DMAD + larryvrh (merged) | 3.0 MP / 5 s | — | — | `MiniMax_H3_00006_.mp4`; merged DMAD + larryvrh LoRA at strength 1.0, Euler / Beta, 8 total steps, `lowres_steps=6` (different from the profile above). Output: 2368 × 1344, 124 frames, 5.167 s. Runtime not recorded. |
-| Pika | 1.0 MP / 15 s | 560.169 s | 730.00 s | `REF2VA_Pika_pruned_1.0MP_15s_00001_.mp4` — 1360 × 768, 362 frames, 15.083 s |
+| DMAD + larryvrh (merged) | 3.0 MP / 5 s | — | — | Merged DMAD + larryvrh LoRA at strength 1.0, Euler / Beta, 8 total steps, `lowres_steps=6` (different from the profile above). Output: 2368 × 1344, 124 frames, 5.167 s. Runtime not recorded. |
+| Pika | 1.0 MP / 15 s | 560.169 s | 730.00 s | 1360 × 768, 362 frames, 15.083 s |
 | Pika | 1.5 MP / 10 s | — | — | Stopped before completion at the user's request; pending a direct run. |
 | Pika | 2.0 MP / 8 s | — | — | Not measured; pending a direct run. |
 | Pika | 3.0 MP / 5 s | — | — | Not measured; pending a direct run. |
