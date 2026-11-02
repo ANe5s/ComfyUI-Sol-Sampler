@@ -63,7 +63,7 @@ All runs use 16:9, `ResolutionSelector multiple=16`, `lowres_scale=0.5`, and onl
 | --- | --- | ---: | ---: | --- |
 | DMAD/larryvrh blend | 1.0 MP / 15 s | — | — | Not measured; pending a direct run under lower desktop load. |
 | DMAD/larryvrh blend | 1.5 MP / 10 s | — | — | Not measured; pending a direct run under lower desktop load. |
-| DMAD/larryvrh blend | 2.0 MP / 8 s | — | — | Not measured; pending a direct run under lower desktop load. |
+| DMAD/larryvrh blend | 2.0 MP / 8 s | — | — | 1936 × 1088, 192 frames, 8.000 s |
 | DMAD/larryvrh blend | 3.0 MP / 5 s | — | — | 2368 × 1344, 124 frames, 5.167 s |
 | Pika | 1.0 MP / 15 s | 560.169 s | 730.00 s | 1360 × 768, 362 frames, 15.083 s |
 | Pika | 1.5 MP / 10 s | — | — | Stopped before completion at the user's request; pending a direct run. |
