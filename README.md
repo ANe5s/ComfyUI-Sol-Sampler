@@ -51,7 +51,7 @@ All runs use 16:9 and `lowres_scale=0.5`; the `ResolutionSelector multiple` sett
 | Pika | 1.0 MP / 15 s | 408.283 s | 477.36 s | 1360 × 768, 362 frames, 15.083 s |
 | Pika | 1.5 MP / 10 s | 418.273 s | 484.01 s | 1680 × 944, 243 frames, 10.125 s |
 | Pika | 2.0 MP / 8 s | 495.654 s | 563.76 s | 1936 × 1088, 192 frames, 8.000 s |
-| Pika | 3.0 MP / 5 s | — | — | H3 latent upscaling OOMed after reducing temporal chunking from 32 to 16 to 8; no completed video. |
+| Pika | 3.0 MP / 5 s | 498.364 s | 549.58 s | 2368 × 1344, 124 frames, 5.167 s; `chunks=8`, `seq_threshold=2048` |
 
 ### REF2VA model
 
