@@ -62,7 +62,6 @@ All runs use 16:9, `ResolutionSelector multiple=16`, `lowres_scale=0.5`, and onl
 | Acceleration LoRA | Target | Sampler | Full workflow | Notes |
 | --- | --- | ---: | ---: | --- |
 | DMAD/larryvrh blend | 1.0 MP / 15 s | 510.795 s | 601.00 s | 1376 × 768, 362 frames, 15.083 s |
-| DMAD/larryvrh blend | 1.5 MP / 10 s | 2358.931 s | 2553.00 s | 1680 × 944, 243 frames, 10.125 s |
 | DMAD/larryvrh blend | 1.5 MP / 10 s | 564.405 s | 667.00 s | 1664 × 928, 243 frames, 10.125 s |
 | DMAD/larryvrh blend | 2.0 MP / 8 s | 1256.599 s | 1440.00 s | 1936 × 1088, 192 frames, 8.000 s |
 | DMAD/larryvrh blend | 3.0 MP / 5 s | 434.076 s | 500.77 s | 2368 × 1344, 124 frames, 5.167 s |
