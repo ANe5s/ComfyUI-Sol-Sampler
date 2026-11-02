@@ -33,7 +33,7 @@ Sol-Attn：   稠密注意力预热 → 逐渐稀疏 → 稀疏注意力
 - CPU：AMD Ryzen 5 9600X
 - 内存：32 GB
 
-所有记录均使用 16:9、`ResolutionSelector multiple=16`、`lowres_scale=0.5`，且只启用表中列出的加速 LoRA，不额外加载风格 LoRA。FL2VA 检查点为 `minimax_h3_fl2va_pruned_int8_convrot.safetensors`；REF2VA 检查点为 `minimax_h3_ref2va_pruned_int8_convrot.safetensors`。
+所有记录均使用 16:9、`ResolutionSelector multiple=16` 和 `lowres_scale=0.5`。表中列出各记录使用的加速 LoRA；部分生成还额外加载了风格 LoRA。FL2VA 检查点为 `minimax_h3_fl2va_pruned_int8_convrot.safetensors`；REF2VA 检查点为 `minimax_h3_ref2va_pruned_int8_convrot.safetensors`。
 
 `采样器耗时`对应日志 `[Sol-Sampler] Sampling completed`；`完整工作流耗时`对应 ComfyUI 的 `Prompt executed`。时间单位为秒。输出文件名、尺寸、帧数和实际时长来自本地 MP4 元数据；视频文件仍保存在本地 ComfyUI 输出目录，不包含在此仓库中。
 
