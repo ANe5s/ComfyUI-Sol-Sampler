@@ -39,15 +39,15 @@ Sol-Attn：   稠密注意力预热 → 逐渐稀疏 → 稀疏注意力
 
 ### FL2VA 模型
 
-- **DMAD + larryvrh v4_step600 混合 LoRA：**`minimax_h3_dmad_full_dareties_v4_step600_comfy_fro.safetensors`，强度 0.8–1.0；Euler / Beta；总步数 10，`lowres_steps=6`。
+- **DMAD/larryvrh 混合：**`minimax_h3_dmad_full_dareties_v4_step600_comfy_fro.safetensors`，强度 0.8–1.0；Euler / Beta；总步数 10，`lowres_steps=6`。
 - **Pika：**`pika_h3_flex_fl2va_comfy_bf16.safetensors`，强度 1.0；LCM / Simple；总步数 9，`lowres_steps=5`。
 
 | 加速 LoRA | 目标 | 采样器耗时 | 完整工作流耗时 | 备注 |
 | --- | --- | ---: | ---: | --- |
-| DMAD + larryvrh 混合 LoRA | 1.0 MP / 15 秒 | — | — | 未测；待低后台负载时直接运行。 |
-| DMAD + larryvrh 混合 LoRA | 1.5 MP / 10 秒 | — | — | 未测；待低后台负载时直接运行。 |
-| DMAD + larryvrh 混合 LoRA | 2.0 MP / 8 秒 | — | — | 未测；待低后台负载时直接运行。 |
-| DMAD + larryvrh 混合 LoRA | 3.0 MP / 5 秒 | — | — | 未测；待低后台负载时直接运行。 |
+| DMAD/larryvrh 混合 | 1.0 MP / 15 秒 | — | — | 未测；待低后台负载时直接运行。 |
+| DMAD/larryvrh 混合 | 1.5 MP / 10 秒 | — | — | 未测；待低后台负载时直接运行。 |
+| DMAD/larryvrh 混合 | 2.0 MP / 8 秒 | — | — | 未测；待低后台负载时直接运行。 |
+| DMAD/larryvrh 混合 | 3.0 MP / 5 秒 | — | — | 未测；待低后台负载时直接运行。 |
 | Pika | 1.0 MP / 15 秒 | 408.283 秒 | 477.36 秒 | 1360 × 768，362 帧，15.083 秒 |
 | Pika | 1.5 MP / 10 秒 | 418.273 秒 | 484.01 秒 | 1680 × 944，243 帧，10.125 秒 |
 | Pika | 2.0 MP / 8 秒 | 495.654 秒 | 563.76 秒 | 1936 × 1088，192 帧，8.000 秒 |
@@ -56,15 +56,15 @@ Sol-Attn：   稠密注意力预热 → 逐渐稀疏 → 稀疏注意力
 ### REF2VA 模型
 
 - **检查点：**`minimax_h3_ref2va_pruned_int8_convrot.safetensors`。
-- **DMAD + larryvrh v4_step600 混合 LoRA：**`minimax_h3_dmad_full_dareties_v4_step600_comfy_fro.safetensors`，强度 0.8–1.0；Euler / Beta；总步数 10，`lowres_steps=6`。
+- **DMAD/larryvrh 混合：**`minimax_h3_dmad_full_dareties_v4_step600_comfy_fro.safetensors`，强度 0.8–1.0；Euler / Beta；总步数 10，`lowres_steps=6`。
 - **Pika：**`pika_h3_flex_ref2va_comfy_bf16.safetensors`，强度 1.0；LCM / Simple；总步数 9，`lowres_steps=5`。
 
 | 加速 LoRA | 目标 | 采样器耗时 | 完整工作流耗时 | 备注 |
 | --- | --- | ---: | ---: | --- |
-| DMAD + larryvrh 混合 LoRA | 1.0 MP / 15 秒 | — | — | 未测；待低后台负载时直接运行。 |
-| DMAD + larryvrh 混合 LoRA | 1.5 MP / 10 秒 | — | — | 未测；待低后台负载时直接运行。 |
-| DMAD + larryvrh 混合 LoRA | 2.0 MP / 8 秒 | — | — | 未测；待低后台负载时直接运行。 |
-| DMAD + larryvrh 混合 LoRA | 3.0 MP / 5 秒 | — | — | DMAD + larryvrh 混合 LoRA 强度 1.0、Euler / Beta、总步数 8、`lowres_steps=6`（与上方配置不同）。输出为 2368 × 1344、124 帧、5.167 秒；运行耗时未记录。 |
+| DMAD/larryvrh 混合 | 1.0 MP / 15 秒 | — | — | 未测；待低后台负载时直接运行。 |
+| DMAD/larryvrh 混合 | 1.5 MP / 10 秒 | — | — | 未测；待低后台负载时直接运行。 |
+| DMAD/larryvrh 混合 | 2.0 MP / 8 秒 | — | — | 未测；待低后台负载时直接运行。 |
+| DMAD/larryvrh 混合 | 3.0 MP / 5 秒 | — | — | DMAD/larryvrh 混合强度 1.0、Euler / Beta、总步数 8、`lowres_steps=6`（与上方配置不同）。输出为 2368 × 1344、124 帧、5.167 秒；运行耗时未记录。 |
 | Pika | 1.0 MP / 15 秒 | 560.169 秒 | 730.00 秒 | 1360 × 768，362 帧，15.083 秒 |
 | Pika | 1.5 MP / 10 秒 | — | — | 按用户要求在完成前停止；待直接运行。 |
 | Pika | 2.0 MP / 8 秒 | — | — | 未测；待直接运行。 |
