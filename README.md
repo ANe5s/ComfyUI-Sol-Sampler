@@ -64,7 +64,7 @@ All runs use 16:9, `ResolutionSelector multiple=16`, `lowres_scale=0.5`, and onl
 | DMAD | 1.0 MP / 15 s | — | — | Not measured; pending a direct run under lower desktop load. |
 | DMAD | 1.5 MP / 10 s | — | — | Not measured; pending a direct run under lower desktop load. |
 | DMAD | 2.0 MP / 8 s | — | — | Not measured; pending a direct run under lower desktop load. |
-| DMAD | 3.0 MP / 5 s | — | — | Not measured; pending a direct run under lower desktop load. |
+| DMAD | 3.0 MP / 5 s | — | — | `MiniMax_H3_00006_.mp4`; workflow metadata: LoRA strength 1.0, Euler / Beta, 8 total steps, `lowres_steps=6` (different from the profile above). Output: 2368 × 1344, 124 frames, 5.167 s. Runtime not recorded. |
 | Pika | 1.0 MP / 15 s | 560.169 s | 730.00 s | `REF2VA_Pika_pruned_1.0MP_15s_00001_.mp4` — 1360 × 768, 362 frames, 15.083 s |
 | Pika | 1.5 MP / 10 s | — | — | Stopped before completion at the user's request; pending a direct run. |
 | Pika | 2.0 MP / 8 s | — | — | Not measured; pending a direct run. |
