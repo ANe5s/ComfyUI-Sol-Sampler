@@ -1,0 +1,15 @@
+ComfyUI-Sol-Sampler
+Copyright 2026 ANe5s
+
+Original project code and documentation are licensed under the Apache License,
+Version 2.0. See the LICENSE file.
+
+Third-party code
+----------------
+
+h3_latent_upscaler.py includes code adapted from the MiniMax H3 3D latent
+upscaler node by LBH-123-AI:
+https://github.com/LBH-123-AI/Comfyui_Minimax_h3_latent_Upscaler
+
+Copyright (c) 2026 LBH-123-AI. This file is distributed under the MIT License.
+Its complete MIT notice is retained at the top of h3_latent_upscaler.py.

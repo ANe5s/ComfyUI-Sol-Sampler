@@ -1,0 +1,46 @@
+{
+  "SolAttnProgressiveSampler": {
+    "display_name": "Sol-Attn 渐进式采样器",
+    "description": "在一次原生采样中依次执行低分辨率采样、潜空间放大和高分辨率采样。将经过 Model Sparse Attention（sol-attn）处理的模型连接到引导器，再把本节点输出连接到 SamplerCustomAdvanced。",
+    "inputs": {
+      "sampler_name": {
+        "name": "采样器",
+        "tooltip": "两个分辨率阶段均使用此 ComfyUI 原生采样器。"
+      },
+      "lowres_steps": {
+        "name": "低分辨率步数",
+        "tooltip": "低分辨率去噪阶段的模型评估次数。至少保留一步用于高分辨率阶段。"
+      },
+      "lowres_scale": {
+        "name": "低分辨率比例",
+        "tooltip": "低分辨率阶段的空间缩放比例。设为 1.0 时只执行一次原生采样，不进行潜空间放大或第二阶段采样。"
+      },
+      "latent_upsample": {
+        "name": "潜空间放大方式",
+        "tooltip": "设置低分辨率去噪后潜空间的放大方式。选择 Minimax H3 3D 且放大模型为 none 时，改用 bilinear；噪声、遮罩和预览始终使用 bilinear 或 nearest 插值。"
+      },
+      "upscaler_model": {
+        "name": "潜空间放大模型",
+        "tooltip": "选择 models/latent_upscale_models 中的 MiniMax H3 3D 检查点。仅在放大方式为 Minimax H3 3D 时生效；选择 none 则改用 bilinear 插值。"
+      },
+      "upscaler_precision": {
+        "name": "放大模型精度",
+        "tooltip": "H3 潜空间放大模型推理时使用的数据类型。"
+      },
+      "upscaler_temporal_chunking": {
+        "name": "潜空间放大器：时间分块",
+        "tooltip": "仅影响本节点的 H3 潜空间放大器。帧数超过块长时，视频潜空间会按时间切成重叠片段分别放大，再融合重叠区域以降低峰值显存；帧数未超过块长时不分块，音频潜空间不受影响。"
+      },
+      "upscaler_layerwise_cpu_offload": {
+        "name": "潜空间放大器：逐层 CPU 权重卸载",
+        "tooltip": "仅用于本节点的 H3 潜空间放大器，不会对主采样模型逐层卸载。启用后，放大器权重保留在 CPU，前向时逐模块移至 GPU，计算后移回 CPU。可降低峰值显存，但会增加 CPU/GPU 传输开销。"
+      }
+    },
+    "outputs": {
+      "0": {
+        "name": "采样器",
+        "tooltip": "连接到 SamplerCustomAdvanced 的采样器输入。"
+      }
+    }
+  }
+}
