@@ -33,7 +33,7 @@ The sampler splits the input sigma schedule at `lowres_steps`. It denoises the l
 - CPU: AMD Ryzen 5 9600X
 - System memory: 32 GB
 
-All runs use 16:9, `ResolutionSelector multiple=16`, `lowres_scale=0.5`, and only the listed acceleration LoRA. No additional style LoRA is included. The FL2VA checkpoint is `minimax_h3_fl2va_pruned_int8_convrot.safetensors`; the REF2VA checkpoint is `minimax_h3_ref2va_pruned_int8_convrot.safetensors`.
+All runs use 16:9, `ResolutionSelector multiple=16`, and `lowres_scale=0.5`. The table lists the acceleration LoRA used for each record; some runs also include additional style LoRAs. The FL2VA checkpoint is `minimax_h3_fl2va_pruned_int8_convrot.safetensors`; the REF2VA checkpoint is `minimax_h3_ref2va_pruned_int8_convrot.safetensors`.
 
 `Sampler` is `[Sol-Sampler] Sampling completed`; `Full workflow` is ComfyUI's `Prompt executed`. Times are seconds. Output filenames, dimensions, frame counts, and durations come from local MP4 metadata. The videos remain in the local ComfyUI output folder and are not included in this repository.
 
