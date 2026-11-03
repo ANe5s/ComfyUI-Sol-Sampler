@@ -44,10 +44,10 @@ All runs use 16:9 and `lowres_scale=0.5`; the `ResolutionSelector multiple` sett
 
 | Acceleration LoRA | Target | Sampler | Full workflow | Notes |
 | --- | --- | ---: | ---: | --- |
-| DMAD/larryvrh blend | 1.0 MP / 15 s | — | — | Not measured; pending a direct run under lower desktop load. |
-| DMAD/larryvrh blend | 1.5 MP / 10 s | — | — | Not measured; pending a direct run under lower desktop load. |
-| DMAD/larryvrh blend | 2.0 MP / 8 s | — | — | Not measured; pending a direct run under lower desktop load. |
-| DMAD/larryvrh blend | 3.0 MP / 5 s | — | — | Not measured; pending a direct run under lower desktop load. |
+| DMAD/larryvrh blend | 1.0 MP / 15 s | 375.192 s | 425.82 s | 1376 × 768, 362 frames, 15.083 s; `chunks=4`, `seq_threshold=4096` |
+| DMAD/larryvrh blend | 1.5 MP / 10 s | 383.567 s | 443.40 s | 1664 × 928, 243 frames, 10.125 s; `chunks=4`, `seq_threshold=4096` |
+| DMAD/larryvrh blend | 2.0 MP / 8 s | 506.743 s | 568.42 s | 1920 × 1088, 192 frames, 8.000 s; `chunks=8`, `seq_threshold=2048` |
+| DMAD/larryvrh blend | 3.0 MP / 5 s | 478.564 s | 535.06 s | 2368 × 1344, 124 frames, 5.167 s; `chunks=8`, `seq_threshold=2048` |
 | Pika | 1.0 MP / 15 s | 408.283 s | 477.36 s | 1360 × 768, 362 frames, 15.083 s |
 | Pika | 1.5 MP / 10 s | 418.273 s | 484.01 s | 1680 × 944, 243 frames, 10.125 s |
 | Pika | 2.0 MP / 8 s | 495.654 s | 563.76 s | 1936 × 1088, 192 frames, 8.000 s |
@@ -66,8 +66,8 @@ All runs use 16:9 and `lowres_scale=0.5`; the `ResolutionSelector multiple` sett
 | DMAD/larryvrh blend | 2.0 MP / 8 s | 1256.599 s | 1440.00 s | 1936 × 1088, 192 frames, 8.000 s |
 | DMAD/larryvrh blend | 3.0 MP / 5 s | 434.076 s | 500.77 s | 2368 × 1344, 124 frames, 5.167 s |
 | Pika | 1.0 MP / 15 s | 560.169 s | 730.00 s | 1360 × 768, 362 frames, 15.083 s |
-| Pika | 1.5 MP / 10 s | — | — | Stopped before completion at the user's request; pending a direct run. |
-| Pika | 2.0 MP / 8 s | — | — | Not measured; pending a direct run. |
+| Pika | 1.5 MP / 10 s | 426.371 s | 497.48 s | 1664 × 928, 243 frames, 10.125 s; `chunks=4`, `seq_threshold=4096` |
+| Pika | 2.0 MP / 8 s | 486.710 s | 557.45 s | 1920 × 1088, 192 frames, 8.000 s; `chunks=8`, `seq_threshold=2048` |
 | Pika | 3.0 MP / 5 s | 736.431 s | 803.00 s | 2368 × 1344, 124 frames, 5.167 s; `chunks=8`, `seq_threshold=2048` |
 
 My broader local runs have appeared to show T2VA and REF2VA taking relatively similar time. This strict comparison is still incomplete: only one matched REF2VA/Pika row finished, and these measurements were made with other desktop activity running. I will add the remaining timings after direct runs under lower background load.
