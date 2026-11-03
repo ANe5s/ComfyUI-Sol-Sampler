@@ -39,15 +39,15 @@ All runs use 16:9 and `lowres_scale=0.5`; the `ResolutionSelector multiple` sett
 
 ### FL2VA model
 
-- **DMAD/larryvrh blend:** `minimax_h3_dmad_full_dareties_v4_step600_comfy_fro.safetensors` at 0.8–1.0; Euler / Beta; 10 steps, `lowres_steps=6`.
+- **DMAD/larryvrhv4 merge:** `minimax_h3_dmad_full_dareties_v4_step600_comfy_fro.safetensors` at 0.8–1.0; Euler / Beta; 10 steps, `lowres_steps=6`.
 - **Pika:** `pika_h3_flex_fl2va_comfy_bf16.safetensors` at 1.0; LCM / Simple; 9 steps, `lowres_steps=5`.
 
 | Acceleration LoRA | Target | Sampler | Full workflow | Notes |
 | --- | --- | ---: | ---: | --- |
-| DMAD/larryvrh blend | 1.0 MP / 15 s | 375.192 s | 425.82 s | 1376 × 768, 362 frames, 15.083 s |
-| DMAD/larryvrh blend | 1.5 MP / 10 s | 383.567 s | 443.40 s | 1664 × 928, 243 frames, 10.125 s |
-| DMAD/larryvrh blend | 2.0 MP / 8 s | 506.743 s | 568.42 s | 1920 × 1088, 192 frames, 8.000 s; `chunks=8`, `seq_threshold=2048` |
-| DMAD/larryvrh blend | 3.0 MP / 5 s | 478.564 s | 535.06 s | 2368 × 1344, 124 frames, 5.167 s; `chunks=8`, `seq_threshold=2048` |
+| DMAD/larryvrhv4 merge | 1.0 MP / 15 s | 375.192 s | 425.82 s | 1376 × 768, 362 frames, 15.083 s |
+| DMAD/larryvrhv4 merge | 1.5 MP / 10 s | 383.567 s | 443.40 s | 1664 × 928, 243 frames, 10.125 s |
+| DMAD/larryvrhv4 merge | 2.0 MP / 8 s | 506.743 s | 568.42 s | 1920 × 1088, 192 frames, 8.000 s; `chunks=8`, `seq_threshold=2048` |
+| DMAD/larryvrhv4 merge | 3.0 MP / 5 s | 478.564 s | 535.06 s | 2368 × 1344, 124 frames, 5.167 s; `chunks=8`, `seq_threshold=2048` |
 | Pika | 1.0 MP / 15 s | 408.283 s | 477.36 s | 1360 × 768, 362 frames, 15.083 s |
 | Pika | 1.5 MP / 10 s | 418.273 s | 484.01 s | 1680 × 944, 243 frames, 10.125 s |
 | Pika | 2.0 MP / 8 s | 495.654 s | 563.76 s | 1936 × 1088, 192 frames, 8.000 s |
@@ -56,15 +56,15 @@ All runs use 16:9 and `lowres_scale=0.5`; the `ResolutionSelector multiple` sett
 ### REF2VA model
 
 - **Checkpoint:** `minimax_h3_ref2va_pruned_int8_convrot.safetensors`.
-- **DMAD/larryvrh blend:** `minimax_h3_dmad_full_dareties_v4_step600_comfy_fro.safetensors` at 0.8–1.0; Euler / Beta; 10 steps, `lowres_steps=6`.
+- **DMAD/larryvrhv4 merge:** `minimax_h3_dmad_full_dareties_v4_step600_comfy_fro.safetensors` at 0.8–1.0; Euler / Beta; 10 steps, `lowres_steps=6`.
 - **Pika:** `pika_h3_flex_ref2va_comfy_bf16.safetensors` at 1.0; LCM / Simple; 9 steps, `lowres_steps=5`.
 
 | Acceleration LoRA | Target | Sampler | Full workflow | Notes |
 | --- | --- | ---: | ---: | --- |
-| DMAD/larryvrh blend | 1.0 MP / 15 s | 510.795 s | 601.00 s | 1376 × 768, 362 frames, 15.083 s |
-| DMAD/larryvrh blend | 1.5 MP / 10 s | 564.405 s | 667.00 s | 1664 × 928, 243 frames, 10.125 s |
-| DMAD/larryvrh blend | 2.0 MP / 8 s | 1256.599 s | 1440.00 s | 1936 × 1088, 192 frames, 8.000 s |
-| DMAD/larryvrh blend | 3.0 MP / 5 s | 434.076 s | 500.77 s | 2368 × 1344, 124 frames, 5.167 s |
+| DMAD/larryvrhv4 merge | 1.0 MP / 15 s | 510.795 s | 601.00 s | 1376 × 768, 362 frames, 15.083 s |
+| DMAD/larryvrhv4 merge | 1.5 MP / 10 s | 564.405 s | 667.00 s | 1664 × 928, 243 frames, 10.125 s |
+| DMAD/larryvrhv4 merge | 2.0 MP / 8 s | 1256.599 s | 1440.00 s | 1936 × 1088, 192 frames, 8.000 s |
+| DMAD/larryvrhv4 merge | 3.0 MP / 5 s | 434.076 s | 500.77 s | 2368 × 1344, 124 frames, 5.167 s |
 | Pika | 1.0 MP / 15 s | 560.169 s | 730.00 s | 1360 × 768, 362 frames, 15.083 s |
 | Pika | 1.5 MP / 10 s | 426.371 s | 497.48 s | 1664 × 928, 243 frames, 10.125 s |
 | Pika | 2.0 MP / 8 s | 486.710 s | 557.45 s | 1920 × 1088, 192 frames, 8.000 s; `chunks=8`, `seq_threshold=2048` |
@@ -159,3 +159,4 @@ The H3 upscaler is cached in CPU memory for reuse. In standard model-management 
 ## License
 
 Original project code and documentation are licensed under the Apache License 2.0; see [LICENSE](LICENSE). The `h3_latent_upscaler.py` file, which contains code adapted from upstream, is distributed under the upstream MIT license with its notices retained; see [NOTICE](NOTICE).
+
