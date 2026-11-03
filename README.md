@@ -63,7 +63,7 @@ All runs use 16:9 and `lowres_scale=0.5`; the `ResolutionSelector multiple` sett
 | --- | --- | ---: | ---: | --- |
 | DMAD/larryvrhv4 merge | 1.0 MP / 15 s | 510.795 s | 601.00 s | 1376 × 768, 362 frames, 15.083 s |
 | DMAD/larryvrhv4 merge | 1.5 MP / 10 s | 564.405 s | 667.00 s | 1664 × 928, 243 frames, 10.125 s |
-| DMAD/larryvrhv4 merge | 2.0 MP / 8 s | 1256.599 s | 1440.00 s | 1936 × 1088, 192 frames, 8.000 s |
+| DMAD/larryvrhv4 merge | 2.0 MP / 8 s | 1256.599 s | 1440.00 s | 1936 × 1088, 192 frames, 8.000 s; `chunks=8`, `seq_threshold=2048` |
 | DMAD/larryvrhv4 merge | 3.0 MP / 5 s | 434.076 s | 500.77 s | 2368 × 1344, 124 frames, 5.167 s |
 | Pika | 1.0 MP / 15 s | 560.169 s | 730.00 s | 1360 × 768, 362 frames, 15.083 s |
 | Pika | 1.5 MP / 10 s | 426.371 s | 497.48 s | 1664 × 928, 243 frames, 10.125 s |
