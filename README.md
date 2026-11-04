@@ -219,6 +219,7 @@ The H3 upscaler is cached in CPU memory for reuse. In standard model-management 
 
 - **[H3 Latent Upscaler](https://github.com/LBH-123-AI/Comfyui_Minimax_h3_latent_Upscaler)** — This project's `h3_latent_upscaler.py` adapts LBH-123-AI's node implementation and retains its upstream MIT notice; see [NOTICE](NOTICE).
 - **[Sol-H3](https://nvlabs.github.io/Sana/Sol-Engine/Sol-H3/)** and **[Sol-Engine](https://nvlabs.github.io/Sana/Sol-Engine/)** — Related NVIDIA Research projects on H3 inference and system acceleration, cited as related research and engineering references.
+- **[ComfyUI-KJNodes](https://github.com/kijai/ComfyUI-KJNodes)** — Thanks to Kijai for the utility nodes used in showcase workflows for VRAM and host-memory cleanup.
 - **[Sol-Attn](https://nvlabs.github.io/Sana/Sol-Attn/)** — The workflows use ComfyUI's native Model Sparse Attention (Sol-Attn).
 - **[MiniMax H3](https://huggingface.co/MiniMaxAI/MiniMax-H3)** — The base video-and-audio model targeted by this project.
 - **[larryvrh / MiniMax-H3-Turbo-Lora](https://huggingface.co/larryvrh/MiniMax-H3-Turbo-Lora)** — Used in the project's Turbo LoRA tests and DMAD/larryvrh merge workflow records.

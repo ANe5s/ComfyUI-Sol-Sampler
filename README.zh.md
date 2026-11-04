@@ -219,6 +219,7 @@ H3 放大模型会缓存在 CPU 内存中供后续复用。标准模型管理模
 
 - **[H3-潜在升频器](https://github.com/LBH-123-AI/Comfyui_Minimax_h3_latent_Upscaler)** — 本项目的 `h3_latent_upscaler.py` 改编自 LBH-123-AI 的节点实现，并保留了上游 MIT 许可证声明，详见 [NOTICE](NOTICE)。
 - **[Sol-H3](https://nvlabs.github.io/Sana/Sol-Engine/Sol-H3/)** 与 **[Sol-Engine](https://nvlabs.github.io/Sana/Sol-Engine/)** — NVIDIA Research 的 H3 推理与系统加速相关项目，作为相关研究与工程参考。
+- **[ComfyUI-KJNodes](https://github.com/kijai/ComfyUI-KJNodes)** — 感谢 Kijai 提供的 ComfyUI 辅助节点；展示工作流使用了其中的显存与系统内存清理工具。
 - **[Sol-Attn](https://nvlabs.github.io/Sana/Sol-Attn/)** — 本项目工作流使用 ComfyUI 原生 Model Sparse Attention（Sol-Attn）。
 - **[MiniMax H3](https://huggingface.co/MiniMaxAI/MiniMax-H3)** — 本项目面向的基础视频与音频生成模型。
 - **[larryvrh / MiniMax-H3-Turbo-Lora](https://huggingface.co/larryvrh/MiniMax-H3-Turbo-Lora)** — 本项目的 Turbo LoRA 测试与 DMAD/larryvrh 混合工作流记录使用了该模型系列。
