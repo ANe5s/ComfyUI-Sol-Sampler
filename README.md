@@ -1,4 +1,4 @@
-# ⚡ ComfyUI-Sol-Sampler
+# ComfyUI-Sol-Sampler
 
 [简体中文](README.zh.md)
 
