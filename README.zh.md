@@ -2,7 +2,9 @@
 
 [English](README.md) | 简体中文
 
-## Sol-Attn 渐进式采样器：闪电般的速度
+## Sol-Attn 渐进式采样器
+
+### 更好、更快：高分长视频一轮渐进生成
 
 **Sol-Attn Progressive Sampler** 面向使用 ComfyUI 原生 **Model Sparse Attention（Sol-Attn）** 的高分辨率视频生成。它在一次渐进式采样执行中完成低分辨率去噪、潜空间放大和高分辨率去噪，并从同一份高分辨率噪声按所选模式构造低分辨率噪声，在两个阶段间建立跨分辨率噪声耦合；默认使用二维正交 Haar LL 噪声下采样。
 

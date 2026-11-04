@@ -2,7 +2,9 @@
 
 [简体中文](README.zh.md)
 
-## Sol-Attn Progressive Sampler — Lightning-Fast Progressive Sampling
+## Sol-Attn Progressive Sampler
+
+### Better, Faster: One-Pass Progressive Generation for High-Resolution, Long-Form Video
 
 **Sol-Attn Progressive Sampler** is a sampling strategy for high-resolution video generation with ComfyUI's native **Model Sparse Attention (Sol-Attn)**. It performs low-resolution denoising, latent upscaling, and high-resolution denoising in one progressive sampling execution. It derives low-resolution noise from the same high-resolution noise field using the selected mode, coupling noise across the two stages; 2D orthonormal Haar LL noise downsampling is the default.
 
