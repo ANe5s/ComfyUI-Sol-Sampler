@@ -144,6 +144,7 @@ After Pika H3 Flex was released, its six-step acceleration LoRA showed the accel
 | `sampler_name` | `euler` | Native ComfyUI sampler used by both resolution stages. |
 | `lowres_steps` | `6` | Number of denoiser evaluations at low resolution. At least one step is reserved for the high-resolution stage. |
 | `lowres_scale` | `0.5` | Spatial scale for the low-resolution latent, relative to the input latent. Set to `1.0` to run a single sampling pass without latent upscaling or a second stage. |
+| `lowres_noise_mode` | `2D orthonormal Haar LL noise downsampling` | Maps the input high-resolution noise to the low-resolution stage. It sums each non-overlapping 2×2 spatial block and divides by 2; for iid standard Gaussian noise, this preserves unit variance. It requires the low-resolution latent to be exactly half-size in both spatial dimensions. Select `Bilinear noise downsampling` for other scale ratios. |
 | `latent_upsample` | `Minimax H3 3D` | Use the learned H3 upscaler, bilinear interpolation, or nearest-neighbor interpolation. |
 | `upscaler_model` | First available H3 checkpoint, or `none` | H3 checkpoint in `models/latent_upscale_models`. If `Minimax H3 3D` is selected with `none`, bilinear interpolation is used. |
 | `upscaler_precision` | `checkpoint` | Inference dtype for the H3 upscaler: checkpoint dtype, FP32, FP16, or BF16. |

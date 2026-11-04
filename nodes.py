@@ -97,6 +97,33 @@ def _resize_latent(x, source_shapes, target_shapes, spatial_streams, mode):
     return _pack(resized, target_shapes)
 
 
+def _resize_noise(x, source_shapes, target_shapes, spatial_streams, mode):
+    if mode == "Bilinear noise downsampling":
+        return _resize_latent(x, source_shapes, target_shapes, spatial_streams, "bilinear")
+    if mode != "2D orthonormal Haar LL noise downsampling":
+        raise ValueError(f"Unsupported low-resolution noise mode: {mode}")
+
+    parts = _unpack(x, source_shapes)
+    resized = []
+    for i, part in enumerate(parts):
+        if i not in spatial_streams:
+            resized.append(part)
+            continue
+
+        source_h, source_w = source_shapes[i][-2:]
+        target_h, target_w = target_shapes[i][-2:]
+        if source_h != target_h * 2 or source_w != target_w * 2:
+            raise ValueError(
+                "2D orthonormal Haar LL noise downsampling requires the low-resolution latent to be exactly half "
+                "the high-resolution latent in both spatial dimensions. Use lowres_scale=0.5 with "
+                "even latent dimensions, or select Bilinear noise downsampling."
+            )
+
+        blocks = part.reshape(*part.shape[:-2], target_h, 2, target_w, 2)
+        resized.append(blocks.sum(dim=(-1, -3)) / 2)
+    return _pack(resized, target_shapes)
+
+
 def _upscale_denoised(x, source_shapes, target_shapes, spatial_streams, mode, interpolation,
                       upscaler_patcher, temporal_chunking):
     if mode != "Minimax H3 3D" or upscaler_patcher is None:
@@ -199,7 +226,7 @@ def _native_inpaint_noise(sampler, noise, extra_args):
     return torch.randn(noise.shape, generator=generator, device="cpu").to(noise.dtype).to(noise.device)
 
 
-def _progressive_sampler(sampler_name, sampler, lowres_steps, lowres_scale, upsample,
+def _progressive_sampler(sampler_name, sampler, lowres_steps, lowres_scale, lowres_noise_mode, upsample,
                          upscaler_model, upscaler_precision, temporal_chunking,
                          layerwise_cpu_offload):
     def sample(model, x, sigmas, extra_args=None, callback=None, disable=None):
@@ -273,9 +300,10 @@ def _progressive_sampler(sampler_name, sampler, lowres_steps, lowres_scale, upsa
                 sampling_timer.finish("completed" if sampling_completed else "stopped")
 
         logging.info(
-            "[Sol-Sampler] Sampling started: sampler=%s upscale=%s lowres=%d/%d steps "
+            "[Sol-Sampler] Sampling started: sampler=%s upscale=%s lowres_noise=%s lowres=%d/%d steps "
             "scale=%.2fx highres=%d steps",
-            sampler_name, upscale_label, low_steps, total_steps, lowres_scale, total_steps - low_steps,
+            sampler_name, upscale_label, lowres_noise_mode, low_steps, total_steps, lowres_scale,
+            total_steps - low_steps,
         )
         high_latent = model.latent_image
         high_mask = extra_args.get("denoise_mask")
@@ -283,10 +311,13 @@ def _progressive_sampler(sampler_name, sampler, lowres_steps, lowres_scale, upsa
         nested = len(high_shapes) > 1
 
         low_prepare_timer = _StageTimer("Low-resolution preparation")
-        low_noise = _resize_latent(high_noise, high_shapes, low_shapes, spatial_streams, interpolation)
-        low_inpaint_noise = _resize_latent(
-            high_inpaint_noise, high_shapes, low_shapes, spatial_streams, interpolation
-        )
+        low_noise = _resize_noise(high_noise, high_shapes, low_shapes, spatial_streams, lowres_noise_mode)
+        if high_inpaint_noise is high_noise:
+            low_inpaint_noise = low_noise
+        else:
+            low_inpaint_noise = _resize_noise(
+                high_inpaint_noise, high_shapes, low_shapes, spatial_streams, lowres_noise_mode
+            )
         low_latent = _resize_latent(high_latent, high_shapes, low_shapes, spatial_streams, interpolation)
         if high_mask is not None:
             if nested:
@@ -295,7 +326,16 @@ def _progressive_sampler(sampler_name, sampler, lowres_steps, lowres_scale, upsa
                 low_mask = _resize_spatial(high_mask, low_shapes[0][-2:], "bilinear")
         else:
             low_mask = None
-        low_x = _resize_latent(x, high_shapes, low_shapes, spatial_streams, interpolation)
+        low_noise_parts = _unpack(low_noise, low_shapes)
+        low_latent_parts = _unpack(low_latent, low_shapes)
+        low_x_parts = _unpack(x, high_shapes)
+        max_denoise = sampler.max_denoise(guider, sigmas)
+        for i, state in enumerate(low_x_parts):
+            if i in spatial_streams:
+                low_x_parts[i] = base_model.model_sampling.noise_scaling(
+                    sigmas[0], low_noise_parts[i], low_latent_parts[i], max_denoise
+                )
+        low_x = _pack(low_x_parts, low_shapes)
 
         try:
             base_model.latent_shapes = low_shapes
@@ -460,8 +500,14 @@ class SolAttnProgressiveSampler(io.ComfyNode):
                              tooltip="Number of denoiser evaluations at low resolution. At least one step is reserved for the high-resolution stage."),
                 io.Float.Input("lowres_scale", default=0.5, min=0.25, max=1.0, step=0.05,
                                tooltip="Set to 1.0 to run one native sampling pass without latent upscaling or a second stage."),
+                io.Combo.Input("lowres_noise_mode", options=[
+                                   "Bilinear noise downsampling",
+                                   "2D orthonormal Haar LL noise downsampling",
+                               ],
+                               default="2D orthonormal Haar LL noise downsampling",
+                               tooltip="How high-resolution noise is mapped to the low-resolution stage. 2D orthonormal Haar LL noise downsampling requires exactly half-size spatial dimensions and preserves unit variance for iid standard Gaussian noise."),
                 io.Combo.Input("latent_upsample", options=["bilinear", "nearest", "Minimax H3 3D"], default="Minimax H3 3D",
-                               tooltip="How to upscale the low-resolution denoised latent. If Minimax H3 3D is selected with upscaler_model=none, bilinear interpolation is used. Noise, masks, and previews use bilinear/nearest interpolation."),
+                               tooltip="How to upscale the low-resolution denoised latent. If Minimax H3 3D is selected with upscaler_model=none, bilinear interpolation is used. Low-resolution noise uses lowres_noise_mode; masks and previews use bilinear/nearest interpolation."),
                 io.Combo.Input("upscaler_model", options=upscaler_models, default=default_upscaler, optional=True,
                                tooltip="MiniMax H3 3D checkpoint in models/latent_upscale_models. Select none to use bilinear interpolation instead of the H3 model."),
                 io.Combo.Input("upscaler_precision", options=["checkpoint", "fp32", "fp16", "bf16"],
@@ -476,7 +522,7 @@ class SolAttnProgressiveSampler(io.ComfyNode):
         )
 
     @classmethod
-    def execute(cls, sampler_name, lowres_steps, lowres_scale, latent_upsample, upscaler_model=None,
+    def execute(cls, sampler_name, lowres_steps, lowres_scale, lowres_noise_mode, latent_upsample, upscaler_model=None,
                 upscaler_precision="checkpoint", upscaler_temporal_chunking=True,
                 upscaler_layerwise_cpu_offload=False) -> io.NodeOutput:
         native_sampler = comfy.samplers.sampler_object(sampler_name)
@@ -486,6 +532,7 @@ class SolAttnProgressiveSampler(io.ComfyNode):
                 native_sampler,
                 lowres_steps,
                 lowres_scale,
+                lowres_noise_mode,
                 latent_upsample,
                 upscaler_model,
                 upscaler_precision,

@@ -390,6 +390,7 @@
         "lcm",
         5,
         0.5,
+        "2D orthonormal Haar LL noise downsampling",
         "Minimax H3 3D",
         "minimax_h3_latent_upscaler_3d_conv_v1_bf16.safetensors",
         "checkpoint",
@@ -400,6 +401,7 @@
         "sampler_name": "lcm",
         "lowres_steps": 5,
         "lowres_scale": 0.5,
+        "lowres_noise_mode": "2D orthonormal Haar LL noise downsampling",
         "latent_upsample": "Minimax H3 3D",
         "upscaler_model": "minimax_h3_latent_upscaler_3d_conv_v1_bf16.safetensors",
         "upscaler_precision": "checkpoint",
@@ -807,10 +809,10 @@
   "config": {},
   "extra": {
     "ds": {
-      "scale": 0.9433127516778942,
+      "scale": 0.857557046979904,
       "offset": [
-        1617.6875196345761,
-        -4485.765855822694
+        2074.6693295679993,
+        -4611.092072362799
       ]
     },
     "frontendVersion": "1.59.0"

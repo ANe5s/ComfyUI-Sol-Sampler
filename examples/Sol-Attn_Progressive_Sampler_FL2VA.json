@@ -1,7 +1,7 @@
 {
   "id": "a9000fc7-29c2-4c7f-a46b-2667c2ab7755",
   "revision": 0,
-  "last_node_id": 181,
+  "last_node_id": 182,
   "last_link_id": 324,
   "nodes": [
     {
@@ -16,7 +16,7 @@
         1313.623568997981
       ],
       "flags": {},
-      "order": 26,
+      "order": 27,
       "mode": 0,
       "inputs": [
         {
@@ -231,7 +231,7 @@
       "flags": {
         "collapsed": false
       },
-      "order": 23,
+      "order": 24,
       "mode": 0,
       "inputs": [
         {
@@ -274,7 +274,7 @@
       "flags": {
         "collapsed": false
       },
-      "order": 22,
+      "order": 23,
       "mode": 0,
       "inputs": [
         {
@@ -307,15 +307,15 @@
       "id": 146,
       "type": "BasicScheduler",
       "pos": [
-        -223.2756413460545,
-        5221.048084454023
+        -222.31191970922305,
+        5232.612744096
       ],
       "size": [
         359.3857742204251,
         118.19715348889571
       ],
       "flags": {},
-      "order": 20,
+      "order": 21,
       "mode": 0,
       "inputs": [
         {
@@ -361,7 +361,7 @@
         390
       ],
       "flags": {},
-      "order": 21,
+      "order": 22,
       "mode": 0,
       "inputs": [
         {
@@ -423,7 +423,7 @@
         61.898531463864174
       ],
       "flags": {},
-      "order": 19,
+      "order": 20,
       "mode": 0,
       "inputs": [
         {
@@ -594,7 +594,7 @@
         150
       ],
       "flags": {},
-      "order": 24,
+      "order": 25,
       "mode": 0,
       "inputs": [
         {
@@ -648,7 +648,7 @@
         446.20945038903284
       ],
       "flags": {},
-      "order": 14,
+      "order": 15,
       "mode": 0,
       "inputs": [
         {
@@ -781,7 +781,7 @@
         130
       ],
       "flags": {},
-      "order": 11,
+      "order": 12,
       "mode": 0,
       "inputs": [
         {
@@ -851,6 +851,7 @@
         "lcm",
         5,
         0.5,
+        "2D orthonormal Haar LL noise downsampling",
         "Minimax H3 3D",
         "minimax_h3_latent_upscaler_3d_conv_v1_bf16.safetensors",
         "checkpoint",
@@ -861,6 +862,7 @@
         "sampler_name": "lcm",
         "lowres_steps": 5,
         "lowres_scale": 0.5,
+        "lowres_noise_mode": "2D orthonormal Haar LL noise downsampling",
         "latent_upsample": "Minimax H3 3D",
         "upscaler_model": "minimax_h3_latent_upscaler_3d_conv_v1_bf16.safetensors",
         "upscaler_precision": "checkpoint",
@@ -880,7 +882,7 @@
         250
       ],
       "flags": {},
-      "order": 17,
+      "order": 18,
       "mode": 0,
       "inputs": [
         {
@@ -936,7 +938,7 @@
         86.00002982256659
       ],
       "flags": {},
-      "order": 15,
+      "order": 16,
       "mode": 0,
       "inputs": [
         {
@@ -976,7 +978,7 @@
         130
       ],
       "flags": {},
-      "order": 13,
+      "order": 14,
       "mode": 0,
       "inputs": [
         {
@@ -1027,7 +1029,7 @@
         134.36324502666844
       ],
       "flags": {},
-      "order": 18,
+      "order": 19,
       "mode": 0,
       "inputs": [
         {
@@ -1070,7 +1072,7 @@
         263.17719192823864
       ],
       "flags": {},
-      "order": 16,
+      "order": 17,
       "mode": 0,
       "inputs": [
         {
@@ -1183,7 +1185,7 @@
         263.17719192823864
       ],
       "flags": {},
-      "order": 25,
+      "order": 26,
       "mode": 0,
       "inputs": [
         {
@@ -1298,7 +1300,7 @@
       "flags": {
         "collapsed": true
       },
-      "order": 12,
+      "order": 13,
       "mode": 0,
       "inputs": [
         {
@@ -1392,6 +1394,33 @@
         "megapixels": 1.5,
         "multiple": 32
       }
+    },
+    {
+      "id": 182,
+      "type": "MarkdownNote",
+      "pos": [
+        -631.2838816840733,
+        5411.462483307426
+      ],
+      "size": [
+        353.5597228239498,
+        219.80344325713602
+      ],
+      "flags": {},
+      "order": 11,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "title": "MiniMax H3 Chunk FeedForward",
+      "properties": {},
+      "widgets_values": [
+        "显存不足时，调整MiniMax H3 Chunk FeedForward，其中chunks增加，seq_threshould减少\n\nWhen VRAM is insufficient, adjust the MiniMax H3 Chunk FeedForward settings: increase the number of `chunks` and decrease the `seq_threshold`.\n\nchunks：2、4、8\nseq_threshould：2048、4096"
+      ],
+      "widgets_values_named": {
+        "text": "显存不足时，调整MiniMax H3 Chunk FeedForward，其中chunks增加，seq_threshould减少\n\nWhen VRAM is insufficient, adjust the MiniMax H3 Chunk FeedForward settings: increase the number of `chunks` and decrease the `seq_threshold`.\n\nchunks：2、4、8\nseq_threshould：2048、4096"
+      },
+      "color": "#222",
+      "bgcolor": "#000"
     }
   ],
   "links": [
@@ -1556,12 +1585,20 @@
       "VIDEO"
     ],
     [
-      315,
-      178,
-      1,
-      153,
-      6,
-      "INT"
+      322,
+      146,
+      0,
+      147,
+      3,
+      "SIGMAS"
+    ],
+    [
+      324,
+      175,
+      0,
+      146,
+      0,
+      "MODEL"
     ],
     [
       317,
@@ -1580,20 +1617,12 @@
       "INT"
     ],
     [
-      322,
-      146,
-      0,
-      147,
-      3,
-      "SIGMAS"
-    ],
-    [
-      324,
-      175,
-      0,
-      146,
-      0,
-      "MODEL"
+      315,
+      178,
+      1,
+      153,
+      6,
+      "INT"
     ],
     [
       314,
@@ -1685,10 +1714,10 @@
   "config": {},
   "extra": {
     "ds": {
-      "scale": 0.9433127516778845,
+      "scale": 0.9433127516778882,
       "offset": [
-        3622.0269969148985,
-        -4472.216316839314
+        1033.1519085142559,
+        -4513.250184400396
       ]
     },
     "frontendVersion": "1.59.0",

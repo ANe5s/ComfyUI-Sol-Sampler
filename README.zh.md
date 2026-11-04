@@ -144,6 +144,7 @@ Pika H3 Flex 开源后，它的六步加速 LoRA 呈现出我熟悉的加速路�
 | `sampler_name` | `euler` | 两个分辨率阶段共用的 ComfyUI 原生采样器。 |
 | `lowres_steps` | `6` | 低分辨率去噪的模型评估次数；高分辨率阶段至少保留一步。 |
 | `lowres_scale` | `0.5` | 低分辨率潜空间相对输入潜空间的空间比例。设为 `1.0` 时只执行一轮采样，不放大潜空间，也不进行第二阶段采样。 |
+| `lowres_noise_mode` | `二维正交 Haar LL 噪声下采样` | 默认用二维正交 Haar LL 将高分辨率噪声映射到低分辨率阶段：对互不重叠的 2×2 空间区块求和后除以 2。输入为独立标准高斯噪声时，理论上保持单位方差；此模式要求低分潜空间的宽和高都恰好为高分潜空间的一半。其他缩放比例可选“双线性噪声下采样”。 |
 | `latent_upsample` | `Minimax H3 3D` | 选择 H3 模型放大、双线性插值或最近邻插值。 |
 | `upscaler_model` | 首个可用 H3 模型；无模型时为 `none` | 从 `models/latent_upscale_models` 选择 H3 模型。若放大方式选为 `Minimax H3 3D` 但模型为 `none`，则使用双线性插值。 |
 | `upscaler_precision` | `checkpoint` | H3 放大模型的推理精度：使用检查点精度、FP32、FP16 或 BF16。 |

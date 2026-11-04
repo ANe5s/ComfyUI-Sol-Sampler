@@ -1,8 +1,8 @@
 {
   "id": "e3f2b845-8f2c-4b5a-9caf-eac1029d3e7e",
   "revision": 0,
-  "last_node_id": 160,
-  "last_link_id": 316,
+  "last_node_id": 162,
+  "last_link_id": 317,
   "nodes": [
     {
       "id": 92,
@@ -332,12 +332,12 @@
       "id": 124,
       "type": "BasicScheduler",
       "pos": [
-        -3.121261803814207,
-        5475.0723314077395
+        -2.0671206773307063,
+        5484.0325309828495
       ],
       "size": [
-        370,
-        130
+        368.562537390532,
+        129.5208492124904
       ],
       "flags": {},
       "order": 24,
@@ -402,7 +402,7 @@
         {
           "name": "sampler",
           "type": "SAMPLER",
-          "link": 294
+          "link": 317
         },
         {
           "name": "sigmas",
@@ -440,12 +440,12 @@
       "id": 126,
       "type": "BasicGuider",
       "pos": [
-        1.159555239131862,
-        5042.501248897189
+        -1.7153751058231137,
+        5037.230543264771
       ],
       "size": [
-        360,
-        60
+        364.74360665774236,
+        53.999989081354315
       ],
       "flags": {},
       "order": 23,
@@ -573,12 +573,12 @@
       "id": 129,
       "type": "RandomNoise",
       "pos": [
-        0.5797776195659594,
-        4911.777690810243
+        -2.2951527253890163,
+        4906.506985177825
       ],
       "size": [
-        360,
-        90
+        363.3540657646052,
+        90.00000320248718
       ],
       "flags": {},
       "order": 7,
@@ -1033,91 +1033,6 @@
       }
     },
     {
-      "id": 146,
-      "type": "PrimitiveBoolean",
-      "pos": [
-        -1496.21402408795,
-        6000.897436061901
-      ],
-      "size": [
-        270,
-        70
-      ],
-      "flags": {},
-      "order": 11,
-      "mode": 0,
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "BOOLEAN",
-          "type": "BOOLEAN",
-          "links": []
-        }
-      ],
-      "title": "Boolean (Enable Lightning LoRA)",
-      "properties": {
-        "Node name for S&R": "PrimitiveBoolean",
-        "cnr_id": "comfy-core",
-        "ver": "0.33.0"
-      },
-      "widgets_values": [
-        false
-      ],
-      "widgets_values_named": {
-        "value": false
-      },
-      "color": "#322",
-      "bgcolor": "#533"
-    },
-    {
-      "id": 147,
-      "type": "SolAttnProgressiveSampler",
-      "pos": [
-        -2.5051330954696027,
-        5147.090871209286
-      ],
-      "size": [
-        366.8329328359275,
-        285.499979211134
-      ],
-      "flags": {},
-      "order": 12,
-      "mode": 0,
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "SAMPLER",
-          "type": "SAMPLER",
-          "links": [
-            294
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "SolAttnProgressiveSampler"
-      },
-      "widgets_values": [
-        "lcm",
-        5,
-        0.5,
-        "Minimax H3 3D",
-        "minimax_h3_latent_upscaler_3d_conv_v1_bf16.safetensors",
-        "checkpoint",
-        true,
-        false
-      ],
-      "widgets_values_named": {
-        "sampler_name": "lcm",
-        "lowres_steps": 5,
-        "lowres_scale": 0.5,
-        "latent_upsample": "Minimax H3 3D",
-        "upscaler_model": "minimax_h3_latent_upscaler_3d_conv_v1_bf16.safetensors",
-        "upscaler_precision": "checkpoint",
-        "upscaler_temporal_chunking": true,
-        "upscaler_layerwise_cpu_offload": false
-      }
-    },
-    {
       "id": 149,
       "type": "BlockSparseAttention",
       "pos": [
@@ -1381,7 +1296,7 @@
         330
       ],
       "flags": {},
-      "order": 13,
+      "order": 11,
       "mode": 0,
       "inputs": [],
       "outputs": [
@@ -1424,7 +1339,7 @@
         330
       ],
       "flags": {},
-      "order": 14,
+      "order": 12,
       "mode": 0,
       "inputs": [],
       "outputs": [
@@ -1618,6 +1533,83 @@
         "gc_collect": true,
         "unload_all_models": false
       }
+    },
+    {
+      "id": 161,
+      "type": "MarkdownNote",
+      "pos": [
+        -412.1091368921841,
+        4608.118929614469
+      ],
+      "size": [
+        353.5597228239498,
+        219.80344325713602
+      ],
+      "flags": {},
+      "order": 13,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "title": "MiniMax H3 Chunk FeedForward",
+      "properties": {},
+      "widgets_values": [
+        "显存不足时，调整MiniMax H3 Chunk FeedForward，其中chunks增加，seq_threshould减少\n\nWhen VRAM is insufficient, adjust the MiniMax H3 Chunk FeedForward settings: increase the number of `chunks` and decrease the `seq_threshold`.\n\nchunks：2、4、8\nseq_threshould：2048、4096"
+      ],
+      "widgets_values_named": {
+        "text": "显存不足时，调整MiniMax H3 Chunk FeedForward，其中chunks增加，seq_threshould减少\n\nWhen VRAM is insufficient, adjust the MiniMax H3 Chunk FeedForward settings: increase the number of `chunks` and decrease the `seq_threshold`.\n\nchunks：2、4、8\nseq_threshould：2048、4096"
+      },
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 162,
+      "type": "SolAttnProgressiveSampler",
+      "pos": [
+        -1.5004248131070312,
+        5134.15182848076
+      ],
+      "size": [
+        367.81008672372724,
+        309.9999760265199
+      ],
+      "flags": {},
+      "order": 14,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "SAMPLER",
+          "type": "SAMPLER",
+          "links": [
+            317
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SolAttnProgressiveSampler"
+      },
+      "widgets_values": [
+        "lcm",
+        6,
+        0.5,
+        "2D orthonormal Haar LL noise downsampling",
+        "Minimax H3 3D",
+        "minimax_h3_latent_upscaler_3d_conv_v1_bf16.safetensors",
+        "checkpoint",
+        true,
+        false
+      ],
+      "widgets_values_named": {
+        "sampler_name": "lcm",
+        "lowres_steps": 6,
+        "lowres_scale": 0.5,
+        "lowres_noise_mode": "2D orthonormal Haar LL noise downsampling",
+        "latent_upsample": "Minimax H3 3D",
+        "upscaler_model": "minimax_h3_latent_upscaler_3d_conv_v1_bf16.safetensors",
+        "upscaler_precision": "checkpoint",
+        "upscaler_temporal_chunking": true,
+        "upscaler_layerwise_cpu_offload": false
+      }
     }
   ],
   "links": [
@@ -1708,14 +1700,6 @@
       145,
       0,
       "MODEL"
-    ],
-    [
-      294,
-      147,
-      0,
-      125,
-      2,
-      "SAMPLER"
     ],
     [
       297,
@@ -1876,6 +1860,14 @@
       136,
       14,
       "INT"
+    ],
+    [
+      317,
+      162,
+      0,
+      125,
+      2,
+      "SAMPLER"
     ]
   ],
   "groups": [
@@ -1955,10 +1947,10 @@
   "config": {},
   "extra": {
     "ds": {
-      "scale": 0.549574193548403,
+      "scale": 0.8850947344516412,
       "offset": [
-        2695.3343458321433,
-        -5169.695697222224
+        946.1198557043524,
+        -4918.955313671865
       ]
     },
     "frontendVersion": "1.59.0",

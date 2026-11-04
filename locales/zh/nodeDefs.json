@@ -15,9 +15,17 @@
         "name": "低分辨率比例",
         "tooltip": "低分辨率阶段的空间缩放比例。设为 1.0 时只执行一次原生采样，不进行潜空间放大或第二阶段采样。"
       },
+      "lowres_noise_mode": {
+        "name": "低分辨率噪声模式",
+        "tooltip": "选择高分辨率噪声映射到低分辨率阶段的方式。二维正交 Haar LL 噪声下采样要求低分潜空间的宽和高都恰好是高分潜空间的一半；对独立标准高斯噪声，该模式理论上保持标准差为 1。",
+        "options": {
+          "Bilinear noise downsampling": "双线性噪声下采样",
+          "2D orthonormal Haar LL noise downsampling": "二维正交 Haar LL 噪声下采样"
+        }
+      },
       "latent_upsample": {
         "name": "潜空间放大方式",
-        "tooltip": "设置低分辨率去噪后潜空间的放大方式。选择 Minimax H3 3D 且放大模型为 none 时，改用 bilinear；噪声、遮罩和预览始终使用 bilinear 或 nearest 插值。"
+        "tooltip": "设置低分辨率去噪后潜空间的放大方式。选择 Minimax H3 3D 且放大模型为 none 时，改用 bilinear；低分辨率噪声由低分辨率噪声模式控制，遮罩和预览使用 bilinear 或 nearest 插值。"
       },
       "upscaler_model": {
         "name": "潜空间放大模型",
