@@ -213,7 +213,7 @@ The H3 upscaler is cached in CPU memory for reuse. In standard model-management 
 - **[DMAD: Distribution Matching as Adversarial Distillation for Fast Visual Generation](https://huggingface.co/ZhengmingYu/DMAD)** — Credit to Zhengming Yu et al. for the DMAD method and original MiniMax-H3 DMAD LoRAs, incorporated into the merged LoRA used in this project's tests.
 - **[tsolful / DMAD + larryvrh v4 merged LoRA](https://civitai.red/models/2837571/minimax-h3-turbo-loras?modelVersionId=3391964)** — Thank you to tsolful for publishing the merged LoRA used in the project's second-sampling tests.
 - **[Pika H3 Flex](https://github.com/Pika-Labs/Pika-H3-Flex)** — The open acceleration model and adapters used in showcase workflows and generation tests.
-- **[MiniMax H3 Cinematic V2](https://civitai.red/models/2890588/minimax-h3-cinematic-v2?modelVersionId=3417955)** — Thanks to the creator for publishing this style LoRA, which is used in the REF2VA showcase workflow.
+- **[MiniMax H3 Cinematic V2](https://civitai.red/models/2890588/minimax-h3-cinematic-v2?modelVersionId=3417955)** — Thanks to the author of this style LoRA; it is used in the REF2VA showcase workflow.
 
 ## License
 
