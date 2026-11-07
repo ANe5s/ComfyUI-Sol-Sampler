@@ -152,24 +152,9 @@ ComfyUI/models/latent_upscale_models/
 
 请保持 H3 放大器的时间维度分块开启。此设置只影响潜空间放大，不会拆分去噪过程。放大表现仍可能因设备和运行环境而异。
 
-## 展示工作流为何选用 Pika H3 Flex
+## Turbo LoRA的选择
 
-这部分讨论以 2026 年 8 月 7 日及之后我公开的相关研究为背景。我对二次采样工作流中加速 LoRA 特性的研究，受到 [larryvrh V1 step500 版 Turbo LoRA](https://huggingface.co/larryvrh/MiniMax-H3-Turbo-Lora) 的启发。在该版本的早期训练阶段，我观察到一种可能与模型或训练方法有关的特性：其加速路径尚未出现明显过拟合。将基模与 LoRA 组合，并沿完整 Sigma 轨迹去噪时，可以明显观察到：前段归一化 Sigma 高值区间与后段归一化 Sigma 低值区间的去噪方向和特征明显不同。高 Sigma 阶段主要影响整体结构，低 Sigma 阶段主要影响细节。由此可以清楚地看到，单一 Turbo LoRA 在不同归一化 Sigma 区间仍呈现出高、低噪阶段各自的特征。
-
-larryvrh、lightx2v 等后续版本确实学会了用更少步数逼近目标去噪轨迹，但不再呈现这种高低噪特性。以标称 4／8 步的加速 LoRA 为例，即使增加采样步数、延长低 Sigma 阶段，新增的去噪步也未能继续改善画面；油腻、AI 涂抹感仍与 8 步结果相近，仿佛画质上限被加速路径锁定。
-
-Civitai 作者 tsolful 将 DMAD 与 larryvrh 的 v4_step600 合并后，这一问题得到了解决，LoRA 加速路径的过拟合也有所缓解。我也将这个 DMAD/larryvrh 混合版本纳入了自己的二次采样测试。经过 B 站作者 YZ_金鱼的广泛测试与工作流分享，`minimax_h3_dmad_full_dareties_v4_step600_comfy` 凭借更好的表现，逐渐被广泛用于二次采样。不过，这种权重合并也会带来代价：某些物体（例如机械）可能出现形体欠拟合、结构崩坏等问题。详见 [tsolful 的模型页面](https://civitai.red/models/2837571/minimax-h3-turbo-loras?modelVersionId=3391964)。
-
-Pika H3 Flex 开源后，它的六步加速 LoRA 呈现出我熟悉的加速路径欠拟合特征。我重新引入并测试了这款 LoRA，也观察到了熟悉的高低噪行为。经过实验，我可以初步得出以下结论：LCM 采样器的更新规则相对固定，但实际去噪路径仍受 Sigma 序列影响。在常见的二次采样流程中，直接沿用官方推荐的固定六步 Sigma 序列会出现不少问题；我的测试表明，实际设置为九步以上更合适，使用调度器生成 Sigma 时优先选择 Simple，其次是 Beta。低分辨率阶段设置五步是必要的：如果这五步使用的 Sigma 序列未覆盖归一化后的高 Sigma 区间，容易导致某些物体完全缺失；如果分配给低 Sigma 区间的步数不足，快速运动物体则容易欠拟合。
-
-### Pika 采样参数
-
-| 参数 | 设置 |
-| --- | --- |
-| 采样器 | FL2VA 和 REF2VA 均使用 `lcm`。 |
-| 调度器 | 优先 `Simple`，其次 `Beta`。 |
-| 总步数 | 九步以上；展示工作流使用九步。 |
-| `lowres_steps` | `5`；总步数为九步时，高分辨率阶段为四步。 |
+默认使用二维正交 Haar LL 噪声下采样后，你可以广泛使用自己喜欢的加速 LoRA。我已验证 `pika_h3_flex_turbo_8step_hd_ref2va.safetensors`：LoRA 强度 `0.55`，采样器可选 `Res_multistep`、`euler` 或 `LCM`，调度器使用 `simple`。你可以在 [Cinematic V2_Sol-Attn_Progressive_Sampler_REF2VA 工作流](examples/Cinematic%20V2_Sol-Attn_Progressive_Sampler_REF2VA.json) 中体验。
 ## 我的实验环境与生成记录
 
 - 显卡：NVIDIA GeForce RTX 5070（12 GB 显存）

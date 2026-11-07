@@ -152,24 +152,9 @@ For medium-to-high memory pressure, I recommend KJ/VRAMdebug cleanup nodes to re
 
 Keep temporal chunking enabled for the H3 upscaler. This setting affects latent upscaling only, not denoising. Upscaling may still behave differently across devices and runtime environments.
 
-## Why the showcase workflows use Pika H3 Flex
+## Turbo LoRA Selection
 
-This discussion is framed by the related research I made public on and after August 7, 2026. My investigation of accelerated LoRA behavior in second-sampling workflows was inspired by the [larryvrh V1 step500 Turbo LoRA](https://huggingface.co/larryvrh/MiniMax-H3-Turbo-Lora). In its early training stage, I observed a characteristic that may be related to the model or training method: its acceleration path had not yet shown obvious overfitting. When combining the base model with the LoRA and denoising along the full sigma trajectory, the denoising directions and characteristics in the early high normalized-sigma range and the later low normalized-sigma range are clearly different. The high-sigma stage mainly affects global structure, while the low-sigma stage mainly affects detail. This shows that one Turbo LoRA can retain distinct high- and low-noise characteristics across normalized sigma ranges.
-
-Later larryvrh and LightX2V versions learned to approximate the target denoising trajectory in fewer steps, but no longer exhibited this high-/low-noise behavior. For accelerated LoRAs labeled for 4 or 8 steps, even increasing the sampling steps and extending the low-sigma phase did not make the additional denoising steps improve the image. The oily, AI-smeared appearance remained similar to the 8-step result, as if the acceleration path had locked the image-quality ceiling.
-
-After Civitai creator tsolful merged DMAD with larryvrh's v4_step600, this issue was resolved and overfitting in the LoRA acceleration path was alleviated. I also included this DMAD/larryvrh merge in my second-sampling tests. Following extensive testing and workflow sharing by Bilibili creator YZ_金鱼, `minimax_h3_dmad_full_dareties_v4_step600_comfy` gradually became widely used for second sampling because of its better results. This weight merge also has a tradeoff: some objects, such as mechanical forms, may become underfit in shape and suffer structural breakdown. See [tsolful's model page](https://civitai.red/models/2837571/minimax-h3-turbo-loras?modelVersionId=3391964).
-
-After Pika H3 Flex was released, its six-step acceleration LoRA showed the acceleration-path underfitting I was familiar with. I brought this LoRA back into my tests and observed the familiar high-/low-noise behavior. My experiments suggest the following: the LCM sampler's update rule is relatively fixed, but the actual denoising path is still affected by the sigma sequence. In common second-sampling workflows, directly reusing the officially recommended fixed six-step sigma schedule causes a number of problems. My tests indicate that nine or more steps are more suitable. When generating sigmas with a scheduler, prefer Simple, followed by Beta. Five low-resolution steps are necessary: if their sigma sequence does not cover the normalized high-sigma range, some objects may disappear completely; if too few steps are assigned to the low-sigma range, fast-moving objects may be underfit.
-
-### Pika sampling settings
-
-| Setting | Selection |
-| --- | --- |
-| Sampler | `lcm` for both FL2VA and REF2VA. |
-| Scheduler | `Simple` first, followed by `Beta`. |
-| Total steps | Nine or more; the showcase workflows use nine. |
-| `lowres_steps` | `5`; with nine total steps, the high-resolution stage has four steps. |
+With 2D orthonormal Haar LL noise downsampling as the default, you can use a wide range of acceleration LoRAs. I have verified `pika_h3_flex_turbo_8step_hd_ref2va.safetensors` at LoRA strength `0.55` with the `Res_multistep`, `euler`, or `LCM` sampler and the `simple` scheduler. Try it in the [Cinematic V2 Sol-Attn Progressive Sampler REF2VA workflow](examples/Cinematic%20V2_Sol-Attn_Progressive_Sampler_REF2VA.json).
 ## My test environment and generation records
 
 - GPU: NVIDIA GeForce RTX 5070 (12 GB VRAM)
