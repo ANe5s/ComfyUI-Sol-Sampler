@@ -1,0 +1,17 @@
+[project]
+name = "sol-sampler"
+description = "Progressive one-pass MiniMax H3 video sampling for ComfyUI, jointly using Sol-Attn and combining cross-resolution noise coupling and latent upscaling to address performance bottlenecks and improve generation speed when generating high-resolution, long-form videos with MiniMax H3."
+version = "0.1.261107"
+license = { file = "LICENSE" }
+requires-python = ">=3.10"
+dependencies = []
+
+[project.urls]
+Repository = "https://github.com/ANe5s/ComfyUI-Sol-Sampler"
+Documentation = "https://github.com/ANe5s/ComfyUI-Sol-Sampler#readme"
+"Bug Tracker" = "https://github.com/ANe5s/ComfyUI-Sol-Sampler/issues"
+
+[tool.comfy]
+PublisherId = "ane5s"
+DisplayName = "Sol-Sampler"
+
