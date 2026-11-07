@@ -1,7 +1,7 @@
 {
   "id": "e3f2b845-8f2c-4b5a-9caf-eac1029d3e7e",
   "revision": 0,
-  "last_node_id": 176,
+  "last_node_id": 177,
   "last_link_id": 357,
   "nodes": [
     {
@@ -982,11 +982,11 @@
       },
       "widgets_values": [
         "pika_h3_flex_turbo_8step_hd_ref2va.safetensors",
-        0.55
+        0.56
       ],
       "widgets_values_named": {
         "lora_name": "pika_h3_flex_turbo_8step_hd_ref2va.safetensors",
-        "strength_model": 0.55
+        "strength_model": 0.56
       }
     },
     {
@@ -1214,13 +1214,13 @@
           "links": []
         },
         {
-          "label": "5,853,604,120   freemem_before",
+          "label": "8,068,196,632   freemem_before",
           "name": "freemem_before",
           "type": "INT",
           "links": []
         },
         {
-          "label": "5,853,604,120      freemem_after",
+          "label": "8,068,196,632      freemem_after",
           "name": "freemem_after",
           "type": "INT",
           "links": []
@@ -1464,13 +1464,13 @@
           "links": []
         },
         {
-          "label": "8,379,099,232   freemem_before",
+          "label": "8,379,103,232   freemem_before",
           "name": "freemem_before",
           "type": "INT",
           "links": []
         },
         {
-          "label": "8,379,099,232      freemem_after",
+          "label": "8,379,103,232      freemem_after",
           "name": "freemem_after",
           "type": "INT",
           "links": []
@@ -1632,12 +1632,12 @@
       "widgets_values": [
         "minimax_h3_fl2va_pruned_int8_convrot.safetensors",
         "minimax_h3_ref2va_pruned_int8_convrot.safetensors",
-        "all_adaln"
+        "block_range_adaln"
       ],
       "widgets_values_named": {
         "base_model": "minimax_h3_fl2va_pruned_int8_convrot.safetensors",
         "overlay_model": "minimax_h3_ref2va_pruned_int8_convrot.safetensors",
-        "overlay_preset": "all_adaln"
+        "overlay_preset": "block_range_adaln"
       }
     },
     {
@@ -2080,10 +2080,10 @@
   "config": {},
   "extra": {
     "ds": {
-      "scale": 0.8046315767743196,
+      "scale": 0.6045316129033224,
       "offset": [
-        3264.1807769720026,
-        -4662.449845589966
+        3074.2070744859143,
+        -4676.144839322588
       ]
     },
     "frontendVersion": "1.59.0",
