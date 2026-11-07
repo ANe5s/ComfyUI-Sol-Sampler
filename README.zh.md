@@ -213,6 +213,7 @@ H3 放大模型会缓存在 CPU 内存中供后续复用。标准模型管理模
 - **[DMAD：Distribution Matching as Adversarial Distillation for Fast Visual Generation](https://huggingface.co/ZhengmingYu/DMAD)** — 感谢 Zhengming Yu 等作者提出 DMAD 方法并开源 MiniMax H3 DMAD LoRA；本项目测试使用的混合 LoRA 包含该适配器。
 - **[tsolful / DMAD + larryvrh v4 混合 LoRA](https://civitai.red/models/2837571/minimax-h3-turbo-loras?modelVersionId=3391964)** — 感谢 tsolful 发布该混合 LoRA，本项目的二次采样测试中使用了它。
 - **[Pika H3 Flex](https://github.com/Pika-Labs/Pika-H3-Flex)** — 展示工作流与生成测试中使用的开放加速模型与适配器。
+- **[MiniMax H3 Cinematic V2](https://civitai.red/models/2890588/minimax-h3-cinematic-v2?modelVersionId=3417955)** — 感谢作者分享这款风格 LoRA；它用于 REF2VA 展示工作流。
 
 ## 许可证
 
